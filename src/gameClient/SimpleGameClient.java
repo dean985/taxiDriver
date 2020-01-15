@@ -33,7 +33,7 @@ public class SimpleGameClient {
 	public static void main(String[] a) {
 		test1();}
 	public static void test1() {
-		int scenario_num = 2;
+		int scenario_num = 1;
 		game_service game = Game_Server.getServer(scenario_num); // you have [0,23] games
 		String g = game.getGraph();
 		OOP_DGraph gg = new OOP_DGraph();
@@ -68,7 +68,6 @@ public class SimpleGameClient {
 	 * in case the robot is on a node the next destination (next edge) is chosen (randomly).
 	 * @param game
 	 * @param gg
-	 * @param log
 	 */
 	private static void moveRobots(game_service game, oop_graph gg) {
 		List<String> log = game.move();
