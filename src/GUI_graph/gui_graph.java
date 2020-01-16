@@ -21,6 +21,7 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
 
     private DGraph Graph;
     private Graph_Algo algo;
+    private ArrayList<Fruit> fruits_list;
 
     int width_window;
     int height_window;
@@ -53,83 +54,123 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
         initGraph();
     }
 
-    public  gui_graph(graph g){
-        super("Truck Manger");
 
-       algo = new Graph_Algo();
+    public  gui_graph(graph g,ArrayList<Fruit> fruits_list){
+        super("Truck Manger");
+//        if(fruits_list == null) throw Exception("no fruit list added");
+        this.fruits_list = fruits_list;
+        algo = new Graph_Algo();
         this.Graph = (DGraph) g;
         algo.init(g);
         initGraph();
-       //repaint();
+        //repaint();
     }
     ///////////////////////////////////////////////////////////////////
     /////////////////////////// METHODS ///////////////////////////////
     ///////////////////////////////////////////////////////////////////
     public void initGraph(){
 
-         width_window = 1000;
-         height_window = 800;
+        width_window = 900;
+        height_window = 800;
         world_range_x = new Range(algo.get_minimal_location().x(),algo.get_max_location().x());
         world_range_y = new Range(algo.get_minimal_location().y(),algo.get_max_location().y());
 
-        frame_range_x  = new Range(50.0000000001 ,width_window - width_window/3 );
-//        frame_range_y = new Range(200.0000000001,height_window - height_window/2.00000000000000001);
-        frame_range_y = new Range(height_window - 200 , height_window/6 - 200.0000000001);
+        frame_range_x  = new Range(30.0000000001 ,width_window - width_window*0.25 );
+        frame_range_y = new Range(height_window - 150 , height_window*0.125 - 200.0000000001);
 
         this.setSize(width_window, height_window);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);        // closes the program when clicking on close
-        MenuBar menuBar = new MenuBar();
-
-        Menu menu = new Menu("Menu");
-        Menu menu_algo = new Menu("Algorithms");
-
-        menuBar.add(menu);
-        menuBar.add(menu_algo);
-
-        this.setMenuBar(menuBar);
-
-        //Menu
-        MenuItem item1 = new MenuItem("Load Graph");
-        item1.addActionListener(this);
-
-        MenuItem item2 = new MenuItem("Save Graph");
-        item2.addActionListener(this);
-
-        MenuItem item6 = new MenuItem("Custom Graph");
-        item6.addActionListener(this);
-
-
-        // Algorithms
-        MenuItem item3 = new MenuItem("Is Connected");
-        item3.addActionListener(this);
-
-        MenuItem item4 = new MenuItem("Shortest Path");
-        item4.addActionListener(this);
-
-        MenuItem item5 = new MenuItem("TSP");
-        item5.addActionListener(this);
-
-        menu.add(item1);
-        menu.add(item2);
-        menu.add(item6);
-        menu_algo.add(item3);
-        menu_algo.add(item4);
-        menu_algo.add(item5);
-
         setVisible(true);
         this.addMouseListener(this);
 
 
     }
 
+    void draw_graph(Graphics p)
+    {
+
+        Point3D p_n;
+        Point3D p0;
+        Point3D p1;
+        p.setFont((new Font("Arial", Font.BOLD, 18)));
+
+
+        for (node_data n: Graph.getV()){
+            p.setColor(Color.BLACK);
+            p_n = n.getLocation();
+            p_n = world_to_frame(p_n);
+            p.fillOval(p_n.ix()- (size_node/2), p_n.iy() - (size_node/2), size_node, size_node);
+            //p.drawString(p_n.y()+", "+p_n.x(),p_n.ix() + 50,p_n.iy());
+
+
+              p.drawString(""+n.getKey(), p_n.ix() ,p_n.iy()  );
+            for( edge_data edge : Graph.getE(n.getKey())){
+                // paint edges of each node in the graph
+                p.setColor(Color.BLUE);
+                node_data n0 = Graph.getNode(edge.getSrc());
+                node_data n1 = Graph.getNode(edge.getDest());
+                p0 = n0.getLocation();
+                p1 = n1.getLocation();
+                p0 = world_to_frame(p0);
+                p1 = world_to_frame(p1);
+                int x0 = p0.ix();
+                int y0 =p0.iy();
+                int x1 =p1.ix();
+                int y1 =p1.iy();
+
+                p.drawLine(x0, y0,x1, y1);
+
+
+                NumberFormat formatter = new DecimalFormat("#0.0");         // format strings to be with only one digit after the decimal point
+                p.setColor(Color.YELLOW);
+                p.fillRect((7*x1 +x0)/8 - size_node/2 , (7*y1 +y0)/8 -size_node/2, size_node, size_node);
+
+
+            }
+
+        }
+    }
     void draw_fruit(Graphics p)
     {
-        ImageIcon ii = new ImageIcon("assets/car.png");
-        JLabel lable = new JLabel(ii);
-        p.drawImage(ii.getImage(),width_window/2,height_window/2,1,1,this);
+        ImageIcon apple = new ImageIcon("assets/red_box.png");
+        ImageIcon banana = new ImageIcon("assets/yellow_box.png");
 
+        Fruit temp_fruit;
+        Point3D temp_location;
+        Iterator<Fruit> fruitsIterator = fruits_list.iterator();
+
+        while (fruitsIterator.hasNext())
+        {
+           temp_fruit = fruitsIterator.next();
+           temp_location =  this.world_to_frame(temp_fruit.getLocation());
+
+            if(temp_fruit.getType() == fruits.BANANA)
+                p.drawImage(banana.getImage(),temp_location.ix(),temp_location.iy()-20,(int)(width_window*0.042),(int)(height_window*0.042),this);
+            if(temp_fruit.getType() == fruits.APPLE)
+                p.drawImage(apple.getImage(),temp_location.ix(),temp_location.iy()-20,(int)(width_window*0.042),(int)(height_window*0.042),this);
+
+            //  System.out.println(  temp_location.ix() +" " + temp_location.iy());
+        }
 
     }
+
+    void draw_players(Graphics p)
+    {
+        ImageIcon car = new ImageIcon("assets/car_npc.png");
+        p.drawImage(car.getImage(),127,127,(int)(width_window*0.082),(int)(height_window*0.072),this);
+    }
+
+
+
+    @Override
+    public void paint(Graphics p) {
+        super.paint(p);
+
+        draw_graph(p);
+        draw_fruit(p);
+        draw_players(p);
+    }
+
 
     Point3D world_to_frame(Point3D p)
     {
@@ -149,146 +190,6 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
 
         return new_point;
     }
-
-    @Override
-    public void paint(Graphics p) {
-        super.paint(p);
-
-
-        Point3D p_n;
-        Point3D p0;
-        Point3D p1;
-        p.setFont((new Font("Arial", Font.BOLD, 18)));
-//        ImageIcon ii = new ImageIcon("data/A0.png");
-//        JLabel lable = new JLabel(ii);
-//        p.drawImage(ii.getImage(),0,0,width_window,height_window - 100,this);
-
-        draw_fruit(p);
-        for (node_data n: Graph.getV()){
-            p.setColor(Color.BLACK);
-            p_n = n.getLocation();
-            p_n = world_to_frame(p_n);
-            p.fillOval(p_n.ix()- (size_node/2), p_n.iy() - (size_node/2), size_node, size_node);
-            p.drawString(""+n.getKey(), p_n.ix() ,p_n.iy()  );
-            for( edge_data edge : Graph.getE(n.getKey())){
-                // paint edges of each node in the graph
-                p.setColor(Color.BLUE);
-                node_data n0 = Graph.getNode(edge.getSrc());
-                node_data n1 = Graph.getNode(edge.getDest());
-                 p0 = n0.getLocation();
-                 p1 = n1.getLocation();
-                 p0 = world_to_frame(p0);
-                 p1 = world_to_frame(p1);
-                int x0 = p0.ix();
-                int y0 =p0.iy();
-                int x1 =p1.ix();
-                int y1 =p1.iy();
-
-                p.drawLine(x0, y0,x1, y1);
-
-               // p.drawString(x0+", "+y0+" ," + x1+", "+ y1,x0,y0 );
-
-                NumberFormat formatter = new DecimalFormat("#0.0");         // format strings to be with only one digit after the decimal point
-
-               // p.drawString(""+ formatter.format(edge.getWeight()), (x0 + (4*x1)) / 5,(y0 + (4 * y1))/5);
-                p.setColor(Color.YELLOW);
-                p.fillRect((7*x1 +x0)/8 - size_node/2 , (7*y1 +y0)/8 -size_node/2, size_node, size_node);
-
-
-            }
-        }
-
-//
-//        if(is_connected_on && connected) {
-//            p.setColor(Color.BLACK);
-//            p.drawString("graph is connected", 250, 80);
-//            is_connected_on = false;
-//        }
-//        else if(is_connected_on && !connected) {
-//            p.setColor(Color.BLACK);
-//            p.drawString("graph is not connected", 250, 80);
-//            is_connected_on = false;
-//        }
-//
-//        if(shortest_path) {
-//            p.setColor(Color.BLACK);
-//            p.drawString("Click on the Source node, then click on the Destination node:", 40, 80);
-//            p.drawString("The Shortest path between them will be marked with cyan", 40, 100);
-//
-//            if(targets.size() == 2) {
-//                algo.init(Graph);
-//                System.out.println(targets.get(0).getKey()+"  , "+targets.get(1).getKey());
-//                List<node_data> SP_ans = algo.shortestPath(targets.get(0).getKey(), targets.get(1).getKey());
-//                System.out.println(SP_ans.toString());
-//
-//                p.setColor(Color.CYAN);
-//
-//                for(int i = 0; SP_ans != null && i<SP_ans.size()-1 ; i++) {
-//                    node_data n0 = SP_ans.get(i);
-//                    node_data n1 = SP_ans.get(i+1);
-//                    p0 = n0.getLocation();
-//                    p1 = n1.getLocation();
-//
-//                    p.drawLine(p0.ix()-size_node, p0.iy()-size_node, p1.ix(), p1.iy());
-//                }
-//
-//                double sum = algo.shortestPathDist(targets.get(0).getKey(), targets.get(1).getKey());
-//                p.setColor(Color.BLACK);
-//                p.drawString("length of the shortest path between "+targets.get(0).getKey()+" and "+targets.get(1).getKey()+" is: "+String.format("%.1f", sum), 100, 120);
-//                shortest_path = false;
-//            }
-//        }
-//
-//        if (custom_graph){
-//            p.setColor(Color.BLUE);
-//            p.drawString("Click to add a new node. Clicking on two nodes will create an edge ", 40,80 );
-//
-//        }
-//        if(tsp) {
-//            p.setColor(Color.BLACK);
-//            p.drawString("Click on the nodes, when you finish click on the orange button ", 50, 100);
-//            p.drawString("Answer is in gray", 50, 500);
-//
-//
-//            //tsp button
-//            p.setColor(Color.ORANGE);
-//            p.drawRect(50, 130, 30, 30);
-//            if(tsp_rec) {
-//                p.setColor(Color.GRAY);
-//                algo.init(Graph);
-//
-//                List<Integer> nodesKeys = new ArrayList<Integer>();
-//                for(int i =0 ; i<targets.size(); i++)
-//                    nodesKeys.add(targets.get(i).getKey());
-//
-//                List<node_data> tsp_ans =  algo.TSP(nodesKeys);
-//                String path = "";
-//                for(int i = 0; tsp_ans != null && i<tsp_ans.size()-1 ; i++) {
-//                    node_data n1 = tsp_ans.get(i);
-//                    node_data n2 = tsp_ans.get(i+1);
-//                    path += n1.getKey()+">";
-//                    p1 = n1.getLocation();
-//                    Point3D p2 = n2.getLocation();
-//                    p.drawLine(p1.ix()-size_node, p1.iy()-size_node, p2.ix(), p2.iy());
-//
-//                }
-//                p.setColor(Color.BLACK);
-//                if(tsp_ans!=null) {
-//                    path += tsp_ans.get(tsp_ans.size() -1).getKey();
-//                    p.drawString("The TSP path is: "+path, 50, 140);
-//                } else {
-//                    p.drawString("There is no Path that goes through all the selected nodes. ", 100, 140);
-//                }
-//
-//                tsp_rec = false;
-//                tsp = false;
-//            }
-//        }
-//        repaint();
-    }
-
-
-
 
 
     @Override
