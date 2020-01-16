@@ -9,7 +9,9 @@ import oop_dataStructure.OOP_DGraph;
 
 public class myGameGUI
 {
-    public static void drawGraph(int scenario_num )
+    static DGraph dGraph;
+
+    public static void Gameinit(int scenario_num)
     {
         game_service game = Game_Server.getServer(scenario_num); // you have [0,23] games
         String g = game.getGraph();
@@ -17,13 +19,18 @@ public class myGameGUI
 
         oopdGraph.init(g);
 
-        DGraph dGraph = new DGraph(oopdGraph);
+        dGraph  = new DGraph(oopdGraph);
+    }
+
+    public static void drawGraph()
+    {
 
         gui_graph guiGraph = new gui_graph(dGraph);
 
     }
 
     public static void main(String[] args) {
-        drawGraph(1);
+        Gameinit(0);
+        drawGraph();
     }
 }

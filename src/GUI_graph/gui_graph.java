@@ -66,15 +66,16 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
     /////////////////////////// METHODS ///////////////////////////////
     ///////////////////////////////////////////////////////////////////
     public void initGraph(){
-        //Graph = new DGraph();
-        //algo = new Graph_Algo();
-         width_window = 800;
+
+         width_window = 1000;
          height_window = 800;
         world_range_x = new Range(algo.get_minimal_location().x(),algo.get_max_location().x());
-        world_range_y = new Range(32,36);
+        world_range_y = new Range(algo.get_minimal_location().y(),algo.get_max_location().y());
 
-        frame_range_x  = new Range(0.0000000001 , 799.99999999999999899 );
-        frame_range_y = new Range(200,200);
+        frame_range_x  = new Range(50.0000000001 ,width_window - width_window/3 );
+//        frame_range_y = new Range(200.0000000001,height_window - height_window/2.00000000000000001);
+        frame_range_y = new Range(height_window - 200 , height_window/6 - 200.0000000001);
+
         this.setSize(width_window, height_window);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);        // closes the program when clicking on close
         MenuBar menuBar = new MenuBar();
@@ -98,7 +99,6 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
         item6.addActionListener(this);
 
 
-
         // Algorithms
         MenuItem item3 = new MenuItem("Is Connected");
         item3.addActionListener(this);
@@ -115,21 +115,27 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
         menu_algo.add(item3);
         menu_algo.add(item4);
         menu_algo.add(item5);
-        //this.setLocationRelativeTo(null);
+
         setVisible(true);
         this.addMouseListener(this);
 
 
     }
 
+    void draw_fruit(Graphics p)
+    {
+        ImageIcon ii = new ImageIcon("assets/car.png");
+        JLabel lable = new JLabel(ii);
+        p.drawImage(ii.getImage(),width_window/2,height_window/2,1,1,this);
+
+
+    }
 
     Point3D world_to_frame(Point3D p)
     {
         double x = world_range_x.proportional_point(p.x());
         double y = world_range_y.proportional_point(p.y());
         Point3D new_point = new Point3D(frame_range_x.form_proportion(x),frame_range_y.form_proportion(y),0);
-
-
 
         if(new_point.x() > width_window)
             new_point.set_x(width_window);
@@ -148,44 +154,48 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
     public void paint(Graphics p) {
         super.paint(p);
 
+
         Point3D p_n;
         Point3D p0;
         Point3D p1;
         p.setFont((new Font("Arial", Font.BOLD, 18)));
+//        ImageIcon ii = new ImageIcon("data/A0.png");
+//        JLabel lable = new JLabel(ii);
+//        p.drawImage(ii.getImage(),0,0,width_window,height_window - 100,this);
 
+        draw_fruit(p);
         for (node_data n: Graph.getV()){
             p.setColor(Color.BLACK);
             p_n = n.getLocation();
             p_n = world_to_frame(p_n);
             p.fillOval(p_n.ix()- (size_node/2), p_n.iy() - (size_node/2), size_node, size_node);
             p.drawString(""+n.getKey(), p_n.ix() ,p_n.iy()  );
-//            for( edge_data edge : Graph.getE(n.getKey())){
-//                // paint edges of each node in the graph
-//                p.setColor(Color.BLUE);
-//                node_data n0 = Graph.getNode(edge.getSrc());
-//                node_data n1 = Graph.getNode(edge.getDest());
-//                 p0 = n0.getLocation();
-//                 p1 = n1.getLocation();
-//                 p0 = world_to_frame(p0);
-//                 p1 = world_to_frame(p1);
-//                int x0 = p0.ix();
-//                int y0 =p0.iy();
-//                int x1 =p1.ix();
-//                int y1 =p1.iy();
-//
-//                p.drawLine(x0, y0,x1, y1);
-//
-//                p.drawString(x0+", "+y0+" ," + x1+", "+ y1,x0,y0 );
-//
-//                NumberFormat formatter = new DecimalFormat("#0.0");         // format strings to be with only one digit after the decimal point
-//
-//                p.drawString(""+ formatter.format(edge.getWeight()), (x0 + (4*x1)) / 5,
-//                        (y0 + (4 * y1))/5);
-//                p.setColor(Color.YELLOW);
-//                p.fillRect((7*x1 +x0)/8 - size_node/2 , (7*y1 +y0)/8 -size_node/2, size_node, size_node   );
-//
-//
-//            }
+            for( edge_data edge : Graph.getE(n.getKey())){
+                // paint edges of each node in the graph
+                p.setColor(Color.BLUE);
+                node_data n0 = Graph.getNode(edge.getSrc());
+                node_data n1 = Graph.getNode(edge.getDest());
+                 p0 = n0.getLocation();
+                 p1 = n1.getLocation();
+                 p0 = world_to_frame(p0);
+                 p1 = world_to_frame(p1);
+                int x0 = p0.ix();
+                int y0 =p0.iy();
+                int x1 =p1.ix();
+                int y1 =p1.iy();
+
+                p.drawLine(x0, y0,x1, y1);
+
+               // p.drawString(x0+", "+y0+" ," + x1+", "+ y1,x0,y0 );
+
+                NumberFormat formatter = new DecimalFormat("#0.0");         // format strings to be with only one digit after the decimal point
+
+               // p.drawString(""+ formatter.format(edge.getWeight()), (x0 + (4*x1)) / 5,(y0 + (4 * y1))/5);
+                p.setColor(Color.YELLOW);
+                p.fillRect((7*x1 +x0)/8 - size_node/2 , (7*y1 +y0)/8 -size_node/2, size_node, size_node);
+
+
+            }
         }
 
 //
@@ -274,8 +284,12 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
 //                tsp = false;
 //            }
 //        }
-        repaint();
+//        repaint();
     }
+
+
+
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -435,26 +449,6 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
 
     }
 
-    public static void main(String[] args) {
-        DGraph g1 = new DGraph();
-
-//        NodeData n0 = new NodeData(0,2, new Point3D(35,36,0));
-//        NodeData n1 = new NodeData(1,2, new Point3D(22,10,0));
-//        NodeData n2 = new NodeData(2,2, new Point3D(33,22,0));
-//        NodeData n3 = new NodeData(3,2, new Point3D(175,210,0));
-//        NodeData n4 = new NodeData(4,2, new Point3D(125,310,0));
-//        g1.addNode(n1);
-//        g1.addNode(n2);
-//        g1.addNode(n3);
-//        g1.addNode(n4);
-//
-//        g1.connect(1,3,1);
-//        g1.connect(3,4,1);
-//        g1.connect(4,2,1);
-//        g1.connect(2,1,1);
-        //gui_graph draft = new gui_graph(g1);
-
-    }
 
 
 }
