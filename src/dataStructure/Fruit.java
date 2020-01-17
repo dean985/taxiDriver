@@ -8,6 +8,11 @@ public class Fruit {
     private fruits type;                //Type of fruit - Banana or Apple
     private double val;                 //Value of fruit
     private Point3D location;           //Location of fruit
+    private boolean collected ;          //Whether the fruit was collected by a robot
+
+    public Fruit(){
+        ;
+    }
 
 
     /**
@@ -25,10 +30,10 @@ public class Fruit {
         val = json_fruit.getDouble("value");
         int type = json_fruit.getInt("type");
 
-        //Type  - BANANA:-1  , APPLE:0 TOCHANGE!!!!!!!!!!!!!!!!!!!!!!
+        //Type  - BANANA:-1  , APPLE:1
         if(type == -1){
             this.type = fruits.BANANA;
-        }else if (type == 0){
+        }else if (type == 1){
             this.type = fruits.APPLE;
         }
 
@@ -38,6 +43,8 @@ public class Fruit {
         double x = Double.parseDouble(point[0]);
         double y = Double.parseDouble(point[1]);
         location = new Point3D(x,y,0);
+
+        collected = false;
 
     }
 
@@ -87,5 +94,20 @@ public class Fruit {
      */
     public void setLocation(Point3D location) {
         this.location = location;
+    }
+
+    /**
+     * This method is used to check if the fruit was collected by robot
+     * @return true if collected
+     */
+    public boolean isCollected(){
+        return collected;
+    }
+
+    /**
+     * This method is used to collect the fruit
+     */
+    public void collect(){
+        this.collected = true;
     }
 }
