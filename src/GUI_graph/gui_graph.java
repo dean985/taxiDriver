@@ -6,6 +6,7 @@ import utils.Point3D;
 import utils.Range;
 
 import javax.swing.*;
+import javax.swing.Timer;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 import java.awt.*;
@@ -14,7 +15,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.*;
 
-public class gui_graph extends JFrame implements  MenuListener, ActionListener, MouseListener {
+public class gui_graph extends JFrame implements   ActionListener, MouseListener {
     ///////////////////////////////////////////////////////////////////
     /////////////////////////// FIELDS ////////////////////////////////
     ///////////////////////////////////////////////////////////////////
@@ -32,6 +33,9 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
     Range world_range_y;
     Range frame_range_x;
     Range frame_range_y;
+
+    Timer time;
+    int delay = 8;
 
     private boolean custom_graph = false;       // for user drawing mode
     private final int size_node = 5;
@@ -59,6 +63,7 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
     public  gui_graph(graph g,ArrayList<Fruit> fruits_list, ArrayList<Robot> robots_list){
         super("Truck Manger");
 //        if(fruits_list == null) throw Exception("no fruit list added");
+        time = new Timer(delay,this);
         this.fruits_list = fruits_list;
         this.robots_list = robots_list;
         algo = new Graph_Algo();
@@ -102,7 +107,6 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
             p_n = n.getLocation();
             p_n = world_to_frame(p_n);
             p.fillOval(p_n.ix()- (size_node/2), p_n.iy() - (size_node/2), size_node, size_node);
-            //p.drawString(p_n.y()+", "+p_n.x(),p_n.ix() + 50,p_n.iy());
 
 
               p.drawString(""+n.getKey(), p_n.ix() ,p_n.iy()  );
@@ -119,15 +123,10 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
                 int y0 =p0.iy();
                 int x1 =p1.ix();
                 int y1 =p1.iy();
-
                 p.drawLine(x0, y0,x1, y1);
-
-
                 NumberFormat formatter = new DecimalFormat("#0.0");         // format strings to be with only one digit after the decimal point
                 p.setColor(Color.YELLOW);
                 p.fillRect((7*x1 +x0)/8 - size_node/2 , (7*y1 +y0)/8 -size_node/2, size_node, size_node);
-
-
             }
 
         }
@@ -159,19 +158,34 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
         Iterator<Robot> robotIterator = robots_list.iterator();
         Robot temp_robot;
         Point3D temp_location;
-        /*
-        temp stuff
-         */
-        int x_p =127, y_p = 128;
+
 
         while(robotIterator.hasNext())
         {
            temp_robot = robotIterator.next();
-          //  temp_location =  this.world_to_frame(temp_robot.);
+            temp_location =  this.world_to_frame(temp_robot.getLocation());
 
-            p.drawImage(car.getImage(),x_p,y_p,(int)(width_window*0.082),(int)(height_window*0.072),this);
+            p.drawImage(car.getImage(),temp_location.ix() - car.getIconWidth()/2,temp_location.iy() - car.getIconHeight()/2,(int)(width_window*0.082),(int)(height_window*0.072),this);
 
-            x_p += 2;
+        }
+    }
+
+
+    void draw_player(Graphics p)
+    {
+        ImageIcon car = new ImageIcon("assets/car_npc.png");
+        Iterator<Robot> robotIterator = robots_list.iterator();
+        Robot temp_robot;
+        Point3D temp_location;
+
+
+        while(robotIterator.hasNext())
+        {
+            temp_robot = robotIterator.next();
+            temp_location =  this.world_to_frame(temp_robot.getLocation());
+
+            p.drawImage(car.getImage(),temp_location.ix() - car.getIconWidth()/2,temp_location.iy() - car.getIconHeight()/2,(int)(width_window*0.082),(int)(height_window*0.072),this);
+
         }
     }
 
@@ -181,13 +195,30 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
     public void paint(Graphics p) {
         super.paint(p);
 
+        boolean isExit=false;
+
         draw_graph(p);
+
         draw_fruit(p);
         draw_npc(p);
+
+
     }
 
-    void update_frame()
+
+    @Override
+    public void update(Graphics p) {
+        super.update(p);
+        //draw_fruit(p);
+        draw_npc(p);
+
+    }
+
+    public void update_frame(Graphics p, ArrayList<Fruit> fruits_list, ArrayList<Robot> robots_list)
     {
+        this.robots_list = robots_list;
+        this.fruits_list = fruits_list;
+       this.update(p);
 
     }
 
@@ -288,35 +319,19 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
     }
 
     @Override
-    public void mouseReleased(MouseEvent mouseEvent) {
+    public void mouseReleased(MouseEvent e) {
 
     }
 
     @Override
-    public void mouseEntered(MouseEvent mouseEvent) {
+    public void mouseEntered(MouseEvent e) {
 
     }
 
     @Override
-    public void mouseExited(MouseEvent mouseEvent) {
+    public void mouseExited(MouseEvent e) {
 
     }
-
-    @Override
-    public void menuSelected(MenuEvent menuEvent) {
-
-    }
-
-    @Override
-    public void menuDeselected(MenuEvent menuEvent) {
-
-    }
-
-    @Override
-    public void menuCanceled(MenuEvent menuEvent) {
-
-    }
-
 
 
 }
