@@ -6,14 +6,40 @@ import utils.Point3D;
 public class Robot {
 
     private int id;
-    private int src;
-    private int dst;
     private double value;
     private Point3D location;
-    private int speed;
 
-//    public Robot(JSObject json_robot){
-//        this.name =
-//    }
+    public Robot(){
+        ;
+    }
 
+    public Robot (int id, Point3D p){
+        this.value = 0;
+        this.id = id;
+        this.location = p;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public double getValue() {
+        return value;
+    }
+
+    public void setValue(double value) {
+        this.value = value;
+    }
+
+    public Point3D getLocation() {
+        return location;
+    }
+
+    public void setLocation(Point3D location) {
+        this.location = location;
+    }
 }
