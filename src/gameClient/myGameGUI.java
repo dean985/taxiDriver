@@ -20,7 +20,7 @@ public class myGameGUI
 {
     static DGraph dGraph;
     static ArrayList<Fruit> fruits_list;
-    ArrayList<Robot> robots_list;
+    static ArrayList<Robot> robots_list;
 
     public static void Gameinit(int scenario_num)
     {
@@ -30,6 +30,7 @@ public class myGameGUI
         OOP_DGraph oopdGraph = new OOP_DGraph();
         oopdGraph.init(g);
         dGraph  = new DGraph(oopdGraph);
+
         /////// Read the fruit //////
         fruits_list = new ArrayList<>();
         Iterator<String> f_iter = game.getFruits().iterator();
@@ -42,14 +43,24 @@ public class myGameGUI
             }
         }
 
+        robots_list = new ArrayList<>();
+        robots_list.add(new Robot());
+        robots_list.add(new Robot());
+        robots_list.add(new Robot());robots_list.add(new Robot());
+        //int rs = game.getRobots();
+
+
+
+
+
 
     }
 
     public static void drawGraph()
     {
 
+        gui_graph guiGraph = new gui_graph(dGraph,fruits_list,robots_list);
 
-        gui_graph guiGraph = new gui_graph(dGraph,fruits_list);
 
     }
 

@@ -1,6 +1,7 @@
 package GUI_graph;//import Point3D;
 import algorithms.Graph_Algo;
 import dataStructure.*;
+import dataStructure.Robot;
 import utils.Point3D;
 import utils.Range;
 
@@ -12,7 +13,6 @@ import java.awt.event.*;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.*;
-import java.util.List;
 
 public class gui_graph extends JFrame implements  MenuListener, ActionListener, MouseListener {
     ///////////////////////////////////////////////////////////////////
@@ -22,6 +22,7 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
     private DGraph Graph;
     private Graph_Algo algo;
     private ArrayList<Fruit> fruits_list;
+    private ArrayList<Robot> robots_list;
 
     int width_window;
     int height_window;
@@ -55,10 +56,11 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
     }
 
 
-    public  gui_graph(graph g,ArrayList<Fruit> fruits_list){
+    public  gui_graph(graph g,ArrayList<Fruit> fruits_list, ArrayList<Robot> robots_list){
         super("Truck Manger");
 //        if(fruits_list == null) throw Exception("no fruit list added");
         this.fruits_list = fruits_list;
+        this.robots_list = robots_list;
         algo = new Graph_Algo();
         this.Graph = (DGraph) g;
         algo.init(g);
@@ -148,16 +150,29 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
                 p.drawImage(banana.getImage(),temp_location.ix(),temp_location.iy()-20,(int)(width_window*0.042),(int)(height_window*0.042),this);
             if(temp_fruit.getType() == fruits.APPLE)
                 p.drawImage(apple.getImage(),temp_location.ix(),temp_location.iy()-20,(int)(width_window*0.042),(int)(height_window*0.042),this);
-
-            //  System.out.println(  temp_location.ix() +" " + temp_location.iy());
         }
-
     }
 
-    void draw_players(Graphics p)
+    void draw_npc(Graphics p)
     {
         ImageIcon car = new ImageIcon("assets/car_npc.png");
-        p.drawImage(car.getImage(),127,127,(int)(width_window*0.082),(int)(height_window*0.072),this);
+        Iterator<Robot> robotIterator = robots_list.iterator();
+        Robot temp_robot;
+        Point3D temp_location;
+        /*
+        temp stuff
+         */
+        int x_p =127, y_p = 128;
+
+        while(robotIterator.hasNext())
+        {
+           temp_robot = robotIterator.next();
+          //  temp_location =  this.world_to_frame(temp_robot.);
+
+            p.drawImage(car.getImage(),x_p,y_p,(int)(width_window*0.082),(int)(height_window*0.072),this);
+
+            x_p += 2;
+        }
     }
 
 
@@ -168,9 +183,13 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
 
         draw_graph(p);
         draw_fruit(p);
-        draw_players(p);
+        draw_npc(p);
     }
 
+    void update_frame()
+    {
+
+    }
 
     Point3D world_to_frame(Point3D p)
     {
@@ -194,57 +213,6 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
 
     @Override
     public void actionPerformed(ActionEvent e) {
-      /*  String str = e.getActionCommand();
-
-        if (str.equals("Save Graph")) {
-            FileDialog saver = new FileDialog(this, "Save your Graph", FileDialog.SAVE);
-            saver.setVisible(true);
-            String filename = saver.getFile();  //file name
-            String path = saver.getDirectory(); //path of the newly created file
-            System.out.println(path+filename);
-            if(filename!=null) {                //  save the algorithms of the graph
-                algo.init(Graph);
-                algo.save(path + filename +".txt");
-            }
-        } else if (str.equals("Load Graph")) {
-            FileDialog loader = new FileDialog(this, "Load your Graph", FileDialog.LOAD);
-            loader.setVisible(true);
-            String filename = loader.getFile();     //filename
-            String path = loader.getDirectory();    //path of the created file
-
-
-            if(filename != null) {              // loading graph
-                clearData();
-                algo.init(path + filename);
-                Graph = (DGraph) algo.copy();
-
-                repaint();
-            }
-
-        }else if (str.equals("Custom Graph")){
-            this.clearData();
-            Graph = new DGraph();
-            custom_graph= true;
-            repaint();
-        }
-
-        else if(str.equals("Is Connected")) {
-            this.clearData();
-            is_connected_on = true;
-            algo.init(Graph);
-            connected = algo.isConnected();
-            repaint();
-
-
-        } else if(str.equals("Shortest Path")) {
-            this.clearData();
-            shortest_path = true;
-            repaint();
-        } else if(str.equals("TSP")) {
-            clearData();
-            tsp = true;
-            repaint();
-        }*/
 
     }
 
@@ -256,7 +224,6 @@ public class gui_graph extends JFrame implements  MenuListener, ActionListener, 
         custom_graph = false;
         shortest_path = false;
 
-        targets.clear();
     }
 
     @Override
