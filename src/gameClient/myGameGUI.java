@@ -11,6 +11,7 @@ import oop_dataStructure.oop_graph;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+import org.xml.sax.helpers.AttributesImpl;
 import utils.Point3D;
 
 import javax.swing.*;
@@ -19,12 +20,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
-public class myGameGUI
+public class myGameGUI extends JFrame
 {
     static DGraph dGraph;
     static ArrayList<Fruit> fruits_list;
     static ArrayList<Robot> robots_list;
-    Timer time;
+    static Timer time;
     static gui_graph guiGraph;
 
     public static void Gameinit(int scenario_num)
@@ -82,6 +83,7 @@ public class myGameGUI
         //// Todo: if have time include intro screen
 
          guiGraph  = new gui_graph(dGraph,fruits_list,robots_list);
+
     }
 
     public static void update()
@@ -98,13 +100,13 @@ public class myGameGUI
                 r.setNext_node(dGraph.getNode(nextNode(dGraph,r.getCurrent_node())).getKey());
             else
             {
-                r.setLocation(new Point3D(r.getLocation().x()+0.5,r.getLocation().y()+0.5,0));
+                r.setLocation(new Point3D(r.getLocation().x()+0.00025,r.getLocation().y(),0));
+                ///move the Robot function
             }
 
         }
 
-       guiGraph.update_frame(guiGraph.getGraphics(),fruits_list,robots_list);
-
+       guiGraph.update_frame(fruits_list,robots_list);
     }
 
     private static int nextNode(DGraph g, int src) {
@@ -121,14 +123,25 @@ public class myGameGUI
 
 
     public static void main(String[] args) {
-        Gameinit(16);
-        drawGraph();
 
-        while (true)
-        {
-            update();
+        Gameinit(5);
+
+                drawGraph();
+
+
+    while (true) {
+
+        update();
+
+        guiGraph.repaint();
+
+        try {
+            Thread.sleep(200);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
 
+    }
 
     }
 }
