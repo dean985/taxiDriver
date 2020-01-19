@@ -1,4 +1,4 @@
-package dataStructure;
+package GameUtils;
 
 import netscape.javascript.JSObject;
 import utils.Point3D;

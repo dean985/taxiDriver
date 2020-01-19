@@ -1,4 +1,6 @@
 package GUI_graph;//import Point3D;
+import GameUtils.Fruit;
+import GameUtils.fruits;
 import algorithms.Graph_Algo;
 import dataStructure.*;
 import utils.Point3D;
@@ -12,7 +14,6 @@ import java.awt.event.*;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.*;
-import java.util.List;
 
 public class gui_graph extends JFrame implements  MenuListener, ActionListener, MouseListener {
     ///////////////////////////////////////////////////////////////////

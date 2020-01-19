@@ -1,4 +1,4 @@
-package dataStructure;
+package GameUtils;
 
 /**
  * This enum is representing the fruits that exist as collectibles

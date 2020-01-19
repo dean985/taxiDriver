@@ -1,4 +1,4 @@
-package dataStructure;
+package GameUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -9,7 +9,7 @@ public class Fruit {
     private double val;                 //Value of fruit
     private Point3D location;           //Location of fruit
     private boolean collected ;          //Whether the fruit was collected by a robot
-
+    public int id;
     public Fruit(){
         ;
     }
@@ -110,4 +110,12 @@ public class Fruit {
     public void collect(){
         this.collected = true;
     }
+
+    public void setId(int n){
+        this.id = n;
+    }
+    public int getId(){
+        return this.id;
+    }
+
 }
