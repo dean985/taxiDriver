@@ -8,7 +8,7 @@ public class Fruit {
     private fruits type;                //Type of fruit - Banana or Apple
     private double val;                 //Value of fruit
     private Point3D location;           //Location of fruit
-    private boolean collected ;          //Whether the fruit was collected by a robot
+    private boolean collected = false ;          //Whether the fruit was collected by a robot
     public int id;
     public Fruit(){
         ;

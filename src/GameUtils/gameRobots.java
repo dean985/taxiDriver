@@ -71,9 +71,14 @@ public class gameRobots {
      * This method return the arraylist of robots
      * @return Collecction robots
      */
-    public Collection<Robot> Robots(){
+    public Collection<Robot> RobotsCollection(){
         return allRobots;
     }
+    public ArrayList<Robot> Robots(){
+        return new ArrayList<Robot>(allRobots);
+    }
+
+
 
 
 }

@@ -3,7 +3,7 @@ import GameUtils.Fruit;
 import GameUtils.fruits;
 import algorithms.Graph_Algo;
 import dataStructure.*;
-import dataStructure.Robot;
+
 import utils.Point3D;
 import utils.Range;
 
@@ -25,7 +25,7 @@ public class gui_graph extends JFrame implements   ActionListener, MouseListener
     private DGraph Graph;
     private Graph_Algo algo;
     private ArrayList<Fruit> fruits_list;
-    private ArrayList<Robot> robots_list;
+    private ArrayList<GameUtils.Robot> robots_list;
 
     int width_window;
     int height_window;
@@ -58,7 +58,7 @@ public class gui_graph extends JFrame implements   ActionListener, MouseListener
     }
 
 
-    public  gui_graph(graph g,ArrayList<Fruit> fruits_list, ArrayList<Robot> robots_list){
+    public  gui_graph(graph g,ArrayList<Fruit> fruits_list, ArrayList<GameUtils.Robot> robots_list){
         super("Truck Manger");
 //        if(fruits_list == null) throw Exception("no fruit list added");
         this.fruits_list = fruits_list;
@@ -121,8 +121,8 @@ public class gui_graph extends JFrame implements   ActionListener, MouseListener
     void draw_npc(Graphics p)
     {
         ImageIcon car = new ImageIcon("assets/car_npc.png");
-        Iterator<Robot> robotIterator = robots_list.iterator();
-        Robot temp_robot;
+        Iterator<GameUtils.Robot> robotIterator = robots_list.iterator();
+        GameUtils.Robot temp_robot;
         Point3D temp_location;
 
         while(robotIterator.hasNext())
@@ -137,8 +137,8 @@ public class gui_graph extends JFrame implements   ActionListener, MouseListener
     void draw_player(Graphics p)
     {
         ImageIcon car = new ImageIcon("assets/car_npc.png");
-        Iterator<Robot> robotIterator = robots_list.iterator();
-        Robot temp_robot;
+        Iterator<GameUtils.Robot> robotIterator = robots_list.iterator();
+        GameUtils.Robot temp_robot;
         Point3D temp_location;
 
         while(robotIterator.hasNext())
@@ -167,7 +167,7 @@ public class gui_graph extends JFrame implements   ActionListener, MouseListener
 
 
 
-    public void update_frame(ArrayList<Fruit> fruits_list, ArrayList<Robot> robots_list)
+    public void update_frame(ArrayList<Fruit> fruits_list, ArrayList<GameUtils.Robot> robots_list)
     {
         this.robots_list = robots_list;
         this.fruits_list = fruits_list;

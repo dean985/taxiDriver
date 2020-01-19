@@ -118,7 +118,8 @@ public class gameFruits {
     }
 
     /**
-     *This method gets the nearest fruit to a node in a simple way.
+     *This method gets the nearest fruit to a node in a simple way. If fast mode is enabled, algorithm for
+     * shortest path is enabled, otherwise only compare coordinates in the graph.
      *
      *       if fast mode AND [Shortest Path  (Source node , Destination Node of closest fruit)
      *          is bigger then Shortest Path (Source node , The current destination node of fruit's edge) ]
