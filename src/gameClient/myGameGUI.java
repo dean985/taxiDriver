@@ -23,8 +23,6 @@ import java.util.Iterator;
 public class myGameGUI extends JFrame
 {
     static DGraph dGraph;
-    static ArrayList<Fruit> fruits_list;
-    static ArrayList<Robot> robots_list;
     static Timer time;
     static gui_graph guiGraph;
 

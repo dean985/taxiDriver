@@ -18,7 +18,12 @@ public class gameFruits {
 
     ArrayList<Fruit> allFruits = new ArrayList<>();
     graph Graph;
-    // Constructor
+
+    /**
+     * Initialize fruits for game
+     * @param game
+     * @param graph
+     */
     public gameFruits(game_service game, graph graph){
         int j = 0;
         this.Graph = graph;
@@ -114,7 +119,7 @@ public class gameFruits {
 
     /**
      *This method gets the nearest fruit to a node in a simple way.
-     * 
+     *
      *       if fast mode AND [Shortest Path  (Source node , Destination Node of closest fruit)
      *          is bigger then Shortest Path (Source node , The current destination node of fruit's edge) ]
      *          then ----> The closest fruit is the latter.
