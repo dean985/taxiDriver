@@ -183,11 +183,13 @@ public class gameFruits {
     public Fruit MaxFruit(){
         Iterator<Fruit> iter = allFruits.iterator();
         Fruit maxValue = iter.next();
+        Fruit temp;
         if (iter.hasNext()) {
 
             while (iter.hasNext()){
-                if (maxValue.getVal() < iter.next().getVal()){
-                    maxValue = iter.next();
+                temp = iter.next();
+                if (maxValue.getVal() < temp.getVal()){
+                    maxValue = temp;
                 }
             }
         }

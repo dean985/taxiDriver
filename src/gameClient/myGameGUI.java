@@ -28,9 +28,9 @@ public class myGameGUI extends JFrame
     static gui_graph guiGraph;
     private static gameFruits game_fruits;
     static gameRobots game_robots;
-    static boolean auto_mode;
+    static boolean auto_mode = true;
     int scenario;
-    game_service gameservice;
+    game_service  gameservice;
 
 
 
@@ -60,7 +60,7 @@ public class myGameGUI extends JFrame
 
     }
 
-    public static void update()
+    public void update()
     {
         Iterator<Robot> robotsIter = game_robots.RobotsCollection().iterator();
 
@@ -72,7 +72,7 @@ public class myGameGUI extends JFrame
 
          if( r.move_to_dest(dGraph))
          {
-           r.setNext_node(22);
+           r.setNext_node(nextNode2(this.gameservice,this.game_fruits,dGraph,2,r.getCurrent_node()));
          }
 
         }
@@ -251,7 +251,7 @@ public class myGameGUI extends JFrame
 
     while (true) {
 
-        update();
+        gameGUI.update();
 
         guiGraph.repaint();
 

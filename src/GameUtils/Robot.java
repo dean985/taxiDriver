@@ -69,9 +69,11 @@ public class Robot {
        this. next_node = next_node;
     }
 
+
     public int getNext_node() {
         return next_node;
     }
+
 
     /**
      * move the robot on the graph to the next_node and tell you if you got there yet
