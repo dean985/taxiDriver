@@ -105,6 +105,15 @@ public class Fruit {
     }
 
     /**
+     * If fruit is collected, then randomly chooses a new edge for it.
+     * different value
+     */
+    public void backInGame(){
+        this.collected = false;
+    }
+
+
+    /**
      * This method is used to collect the fruit
      */
     public void collect(){
