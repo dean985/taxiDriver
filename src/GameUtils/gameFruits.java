@@ -35,8 +35,8 @@ public class gameFruits {
                 Fruit newFruit = new Fruit(fruit);
                 newFruit.setId(j);
 
-                Edge e = (Edge)edgeOfFruit(newFruit.id);
-                e.addFruittoEdge(newFruit);
+//                Edge e = (Edge)edgeOfFruit(newFruit.id);
+//                e.addFruittoEdge(newFruit);
 
 
                 allFruits.add(newFruit);
