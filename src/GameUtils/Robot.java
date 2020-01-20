@@ -12,10 +12,6 @@ public class Robot {
 //    int current_node;
 //    int next_node = -1;
 
-    public Robot(){
-        ;
-    }
-
     public Robot (int id, Point3D p){
         this.value = 0;
         this.id = id;

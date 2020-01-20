@@ -22,7 +22,20 @@ public class gameRobots {
      */
     public gameRobots(graph graph, game_service game){
         this.Graph = graph;
-        List<String> robotsStrings = game.getRobots();
+        String in = game.toString();
+        try{
+            JSONObject line = new JSONObject(in);
+            JSONObject ttt = line.getJSONObject("GameServer");
+            int robot_number = ttt.getInt("robots");
+            System.out.println("ROBOTS: "+robot_number);
+        }catch (Exception e){
+
+        }
+
+
+
+        /*
+        List<String> robotsStrings = game
         if (robotsStrings != null){
             for (int i = 0 ; i < robotsStrings.size(); i++){
                 String str = robotsStrings.get(i);
@@ -41,7 +54,9 @@ public class gameRobots {
                 }
 
             }
-        }
+        }*/
+
+
     }
 
     /**
