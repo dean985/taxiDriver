@@ -38,7 +38,7 @@ public class myGameGUI extends JFrame
 
     public myGameGUI(int scenario_num){
         game_service game = Game_Server.getServer(scenario_num);
-        scenario =scenario_num;
+        scenario = scenario_num;
         String g = game.getGraph();
         OOP_DGraph oopdGraph = new OOP_DGraph();
         oopdGraph.init(g);
@@ -68,9 +68,12 @@ public class myGameGUI extends JFrame
         while (robotsIter.hasNext())
         {
 
-         //   r = robotsIter.next();
+            r = robotsIter.next();
 
-
+         if( !r.move_to_dest(dGraph))
+         {
+           r.setNext_node(3);
+         }
 
         }
 
@@ -264,16 +267,15 @@ public class myGameGUI extends JFrame
 
     public static void main(String[] args) {
 
-//        Gameinit(5);
+        myGameGUI gameGUI = new myGameGUI(19);
 
-//                drawGraph();
-
+        gameGUI.drawGraph();
 
     while (true) {
 
        // update();
 
-     //   guiGraph.repaint();
+        //guiGraph.repaint();
 
         try {
             Thread.sleep(200);
