@@ -74,6 +74,7 @@ public class myGameGUI extends JFrame
 
          if( r.move_to_dest(dGraph))
          {
+             System.out.println("changed node");
            r.setNext_node(nextNode2(this.gameservice,this.game_fruits,dGraph,r.getId(),r.getCurrent_node()));
          }
 
@@ -271,8 +272,10 @@ public class myGameGUI extends JFrame
 
         myGameGUI gameGUI = new myGameGUI(19);
 
+
         gameGUI.drawGraph();
 
+       // gameGUI.gameservice.startGame();
     while (true) {
 
         gameGUI.update();

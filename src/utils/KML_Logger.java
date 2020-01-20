@@ -103,6 +103,9 @@ public class KML_Logger
 
 
 
+
+
+
             DOMSource source = new DOMSource(doc);
 
             StreamResult result = new StreamResult(new File("data/"+"sencerio_" + mgg.getScenario()+".kml"));

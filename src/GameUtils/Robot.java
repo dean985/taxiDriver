@@ -83,24 +83,25 @@ public class Robot {
     public boolean move_to_dest(DGraph dGraph)
     {
         Point3D nect_node_location = dGraph.getNode(next_node).getLocation();
-        if(this.location.distance3D(dGraph.getNode(next_node).getLocation()) > 0)
+        if(this.location.distance2D(dGraph.getNode(next_node).getLocation()) > 0)
         {
+            System.out.println( this.id +" "+ this.location.distance2D(dGraph.getNode(next_node).getLocation()));
             if(this.location.x() > nect_node_location.x())
             {
-                this.location.set_x(this.location.x() - speed);
+                this.location.set_x(nect_node_location.x());
             }
             else
             {
-                this.location.set_x(this.location.x() + speed);
+                this.location.set_x(nect_node_location.x());
             }
 
             if(this.location.y() > nect_node_location.y())
             {
-                this.location.set_y(this.location.y() - speed);
+                this.location.set_y(nect_node_location.y());
             }
             else
             {
-                this.location.set_y(this.location.y() + speed);
+                this.location.set_y(nect_node_location.y());
             }
         }
         else
