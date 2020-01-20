@@ -46,7 +46,7 @@ public class myGameGUI extends JFrame
         //todo: implement input dialog for boolean auto-mode
         game_robots = new gameRobots(dGraph, gameservice);
         game_fruits = new gameFruits(gameservice, dGraph);
-
+        fruitsToEdges(game_fruits);
 
 
 
@@ -88,12 +88,20 @@ public class myGameGUI extends JFrame
      * @param fruits
      */
     public static void fruitsToEdges(gameFruits fruits){
-        Collection<Fruit> allFruits = fruits.getFruitList();
-        Iterator<Fruit> fruitIter = allFruits.iterator();
+        ArrayList<Fruit> allFruits = (ArrayList<Fruit>) fruits.getFruitList();
+//        Iterator<Fruit> fruitIter = allFruits.iterator();
+//
+//        while( fruitIter.hasNext()){
+//            Edge e = (Edge) fruits.edgeOfFruit(fruitIter.next().id);
+//            e.addFruittoEdge(fruitIter.next());
+//
+//        }
 
-        while( fruitIter.hasNext()){
-            Edge e = (Edge) fruits.edgeOfFruit(fruitIter.next().id);
-            e.addFruittoEdge(fruitIter.next());
+        for (int i = 0 ; i < allFruits.size(); i++){
+            Fruit temp = allFruits.get(i);
+
+            Edge e = (Edge) fruits.edgeOfFruit(temp.id);
+            e.addFruittoEdge(temp);
         }
 
     }
