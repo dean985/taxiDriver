@@ -30,6 +30,7 @@ public class myGameGUI extends JFrame
     private static gameFruits game_fruits;
     static gameRobots game_robots;
     static boolean auto_mode;
+    int scenario;
 
 
 
@@ -37,6 +38,7 @@ public class myGameGUI extends JFrame
 
     public myGameGUI(int scenario_num){
         game_service game = Game_Server.getServer(scenario_num);
+        scenario =scenario_num;
         String g = game.getGraph();
         OOP_DGraph oopdGraph = new OOP_DGraph();
         oopdGraph.init(g);
@@ -49,61 +51,6 @@ public class myGameGUI extends JFrame
     }
 
 
-  /*  public static void Gameinit(int scenario_num)
-    {
-        game_service game = Game_Server.getServer(scenario_num); // you have [0,23] games
-        /// Read the Graph ///////
-        String g = game.getGraph();
-        OOP_DGraph oopdGraph = new OOP_DGraph();
-        oopdGraph.init(g);
-        dGraph  = new DGraph(oopdGraph);
-        g = game.toString();
-        JSONObject line = null;
-
-
-
-        try {
-            line = new JSONObject(g);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-
-
-        /////// Read the fruit //////
-        ArrayList<Fruit> fruits_list = game_fruits.getFruitList();
-
-
-
-        Iterator<String> f_iter = game.getFruits().iterator();
-        while(f_iter.hasNext()) {
-
-            try {
-                fruits_list.add(new Fruit(new JSONObject(f_iter.next()).getJSONObject("Fruit")));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-
-
-        robots_list =  new ArrayList<>();
-        JSONObject ttt = null;
-        try {
-            ttt = line.getJSONObject("GameServer");
-
-            int rs = ttt.getInt("robots");
-            int src_node = 0;  // arbitrary node, you should start at one of the fruits
-            for(int a = 0;a<rs;a++) {
-                game.addRobot(src_node+a);
-                robots_list.add(new Robot(a, dGraph.getNode(src_node+a).getLocation(),src_node+a));
-            }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-
-    }*/
 
     public void drawGraph()
     {
@@ -121,7 +68,7 @@ public class myGameGUI extends JFrame
         while (robotsIter.hasNext())
         {
 
-            r = robotsIter.next();
+         //   r = robotsIter.next();
 
 
 
@@ -324,9 +271,9 @@ public class myGameGUI extends JFrame
 
     while (true) {
 
-        update();
+       // update();
 
-        guiGraph.repaint();
+     //   guiGraph.repaint();
 
         try {
             Thread.sleep(200);
@@ -339,5 +286,11 @@ public class myGameGUI extends JFrame
     }
 
 
+    public int getScenario() {
+        return scenario;
+    }
 
+    public DGraph getdGraph() {
+        return dGraph;
+    }
 }

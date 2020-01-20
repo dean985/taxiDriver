@@ -154,8 +154,6 @@ public class gui_graph extends JFrame implements   ActionListener, MouseListener
     @Override
     public void paint(Graphics p) {
 
-
-
             super.paint(p);
             draw_fruit(p);
             draw_npc(p);
