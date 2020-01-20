@@ -207,8 +207,7 @@ public class gameRobots {
         }
     }
 
-
-
-
-
+    public ArrayList<Robot> getAllRobots() {
+        return allRobots;
+    }
 }

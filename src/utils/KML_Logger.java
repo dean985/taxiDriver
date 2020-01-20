@@ -9,6 +9,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import GameUtils.Robot;
 import dataStructure.NodeData;
 import dataStructure.node_data;
 import gameClient.myGameGUI;
@@ -60,6 +61,25 @@ public class KML_Logger
             open.appendChild(doc.createTextNode("1"));
             document.appendChild(open);
 
+            ///////// style /////////////////
+
+            Element Style = doc.createElement("Style");
+            doc.appendChild(Style);
+            Style.setAttribute("id","Robots_style");
+
+                Element IconStyle =  doc.createElement("IconStyle");
+                    Element scale = doc.createElement("scale");
+                    scale.appendChild(doc.createTextNode("1.2"));
+                    IconStyle.appendChild(scale);
+
+                    Element Icon = doc.createElement("Icon");
+                        Element href  = doc.createElement("href");
+                        href.appendChild(doc.createTextNode("https://cdn0.iconfinder.com/data/icons/black-logistics-icons/256/Robot_head.png"));
+                IconStyle.appendChild(Icon);
+
+            Style.appendChild(IconStyle);
+
+
             Element placemark = doc.createElement("Placemark");
                 name = doc.createElement("name");
                 name.appendChild(doc.createTextNode("sencerio_" + mgg.getScenario()));
@@ -74,6 +94,9 @@ public class KML_Logger
                         name.appendChild(doc.createTextNode("1"));
                         LineString.appendChild(name);
                         name = doc.createElement("coordinates");
+
+                        ///////// draw edge //////////
+
             Iterator<node_data> iter = mgg.getdGraph().getV().iterator();
             String s= iter.next().getLocation().toString();
                         temp += s +" ";
@@ -89,6 +112,8 @@ public class KML_Logger
 
             Element placemark2 ;
 
+            /////////////// draw the node ///////////////////
+
             iter = mgg.getdGraph().getV().iterator();
             while (iter.hasNext())
             {
@@ -101,7 +126,24 @@ public class KML_Logger
                 document.appendChild(placemark2);
             }
 
+            Iterator<Robot> robotIterator =  mgg.getGame_robots().getAllRobots().iterator();
 
+
+            ////////////////// draw the robots ///////////////
+
+            while (robotIterator.hasNext())
+            {
+
+                placemark2 = doc.createElement("Placemark");
+                Element style_mark = doc.createElement("styleUrl");
+                style_mark.appendChild(doc.createTextNode("Robots_style"));
+                Element Point = doc.createElement("Point");
+                name = doc.createElement("coordinates");
+                name.appendChild(doc.createTextNode(robotIterator.next().getLocation().toString()));
+                Point.appendChild(name);
+                placemark2.appendChild(Point);
+                document.appendChild(placemark2);
+            }
 
 
 

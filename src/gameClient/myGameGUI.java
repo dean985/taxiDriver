@@ -300,4 +300,12 @@ public class myGameGUI extends JFrame
     public DGraph getdGraph() {
         return dGraph;
     }
+
+    public  gameRobots getGame_robots() {
+        return game_robots;
+    }
+
+    public  gameFruits getGame_fruits() {
+        return game_fruits;
+    }
 }
