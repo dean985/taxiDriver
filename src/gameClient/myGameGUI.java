@@ -48,6 +48,8 @@ public class myGameGUI extends JFrame
         game_fruits = new gameFruits(game, dGraph);
 
 
+
+
     }
 
 
@@ -80,7 +82,21 @@ public class myGameGUI extends JFrame
        guiGraph.update_frame((ArrayList<Fruit>) game_fruits.getFruitList(),game_robots.Robots());
     }
 
+    /**
+     * This method adds fruit to a list inside each edge.
+     * That results in a list for every edge containing the Fruit s on edge
+     * @param fruits
+     */
+    public static void fruitsToEdges(gameFruits fruits){
+        Collection<Fruit> allFruits = fruits.getFruitList();
+        Iterator<Fruit> fruitIter = allFruits.iterator();
 
+        while( fruitIter.hasNext()){
+            Edge e = (Edge) fruits.edgeOfFruit(fruitIter.next().id);
+            e.addFruittoEdge(fruitIter.next());
+        }
+
+    }
 
 
 
