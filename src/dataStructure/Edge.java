@@ -1,6 +1,9 @@
 package dataStructure;
 
+import GameUtils.Fruit;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Edge implements edge_data, Serializable {
     int dest;              // Destination Node
@@ -8,6 +11,8 @@ public class Edge implements edge_data, Serializable {
     double weight;
     String info;
     int tag;
+
+    ArrayList<Fruit> fruits_edge = new ArrayList<>();
 
     ///////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////Constructor/////////////////////////////////////
@@ -106,4 +111,14 @@ public class Edge implements edge_data, Serializable {
     public void setSrc(NodeData src) {
         this.src = src.getKey();
     }
+
+    /**
+     * Adds fruit to the edge
+     * @param f
+     */
+    public void addFruittoEdge(Fruit f){
+        this.fruits_edge.add(f);
+    }
+
+
 }
