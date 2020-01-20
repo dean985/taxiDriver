@@ -17,7 +17,6 @@ import utils.Point3D;
 
 import javax.swing.*;
 import java.util.*;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Timer;
@@ -31,21 +30,22 @@ public class myGameGUI extends JFrame
     static gameRobots game_robots;
     static boolean auto_mode;
     int scenario;
+    game_service gameservice;
 
 
 
 
 
     public myGameGUI(int scenario_num){
-        game_service game = Game_Server.getServer(scenario_num);
+        gameservice = Game_Server.getServer(scenario_num);
         scenario = scenario_num;
-        String g = game.getGraph();
+        String g = gameservice.getGraph();
         OOP_DGraph oopdGraph = new OOP_DGraph();
         oopdGraph.init(g);
         dGraph  = new DGraph(oopdGraph);
         //todo: implement input dialog for boolean auto-mode
-        game_robots = new gameRobots(dGraph, game);
-        game_fruits = new gameFruits(game, dGraph);
+        game_robots = new gameRobots(dGraph, gameservice);
+        game_fruits = new gameFruits(gameservice, dGraph);
 
 
 
@@ -72,9 +72,9 @@ public class myGameGUI extends JFrame
 
             r = robotsIter.next();
 
-         if( !r.move_to_dest(dGraph))
+         if( r.move_to_dest(dGraph))
          {
-           r.setNext_node(3);
+           r.setNext_node(22);
          }
 
         }
@@ -97,28 +97,6 @@ public class myGameGUI extends JFrame
         }
 
     }
-
-
-
-
-
-
-
-
-
-
-    private static int nextNode(DGraph g, int src) {
-        int ans = -1;
-        Collection<edge_data> ee = g.getE(src);
-        Iterator<edge_data> itr = ee.iterator();
-        int s = ee.size();
-        int r = (int)(Math.random()*s);
-        int i=0;
-        while(i<r) {itr.next();i++;}
-        ans = itr.next().getDest();
-        return ans;
-    }
-
 
     private static void moveRobots(game_service game, graph graph, gameFruits fruits, myGameGUI myGame){
         List<String> log = game.move();
@@ -289,9 +267,9 @@ public class myGameGUI extends JFrame
 
     while (true) {
 
-       // update();
+        update();
 
-        //guiGraph.repaint();
+        guiGraph.repaint();
 
         try {
             Thread.sleep(200);
