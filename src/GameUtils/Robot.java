@@ -1,6 +1,7 @@
 package GameUtils;
 
 import dataStructure.DGraph;
+import dataStructure.node_data;
 import netscape.javascript.JSObject;
 import org.json.JSONObject;
 import utils.Point3D;
@@ -83,25 +84,19 @@ public class Robot {
     public boolean move_to_dest(DGraph dGraph)
     {
         Point3D nect_node_location = dGraph.getNode(next_node).getLocation();
-        if(this.location.distance3D(dGraph.getNode(next_node).getLocation()) > 0)
-        {
-            if(this.location.x() > nect_node_location.x())
-            {
-                this.location.set_x(this.location.x() - speed);
-            }
-            else
-            {
-                this.location.set_x(this.location.x() + speed);
-            }
+        double dist =this.location.distance2D(dGraph.getNode(next_node).getLocation());
 
-            if(this.location.y() > nect_node_location.y())
-            {
-                this.location.set_y(this.location.y() - speed);
-            }
-            else
-            {
-                this.location.set_y(this.location.y() + speed);
-            }
+        if (this.location.x() >dGraph.getNode(next_node).getLocation().x() ){
+            dist*=-1;
+        }
+
+        if(dist > 0.00000001)
+        {
+            this.location.set_x(this.location.x() + speed);
+
+
+            this.location.set_y(stickToEdge(dGraph.getNode(current_node),dGraph.getNode(next_node), this.location.x()));
+
         }
         else
         {
@@ -115,4 +110,18 @@ public class Robot {
     public void setPath(Queue<Integer> path) {
         this.path = path;
     }
+
+    private double stickToEdge(node_data n1, node_data n2, double x){
+        double x0 = n1.getLocation().x();
+        double y0 = n1.getLocation().y();
+        double x1 = n2.getLocation().x();
+        double y1 = n2.getLocation().y();
+
+        double m = (y1-y0)/(x1-x0);
+        double n = y1 - m*x1;
+
+
+        return (m*x + n);
+    }
+
 }

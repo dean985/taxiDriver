@@ -89,13 +89,6 @@ public class myGameGUI extends JFrame
      */
     public static void fruitsToEdges(gameFruits fruits){
         ArrayList<Fruit> allFruits = (ArrayList<Fruit>) fruits.getFruitList();
-//        Iterator<Fruit> fruitIter = allFruits.iterator();
-//
-//        while( fruitIter.hasNext()){
-//            Edge e = (Edge) fruits.edgeOfFruit(fruitIter.next().id);
-//            e.addFruittoEdge(fruitIter.next());
-//
-//        }
 
         for (int i = 0 ; i < allFruits.size(); i++){
             Fruit temp = allFruits.get(i);
