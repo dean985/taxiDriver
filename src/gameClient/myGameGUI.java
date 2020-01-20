@@ -99,43 +99,6 @@ public class myGameGUI extends JFrame
 
     }
 
-    private static void moveRobots(game_service game, graph graph, gameFruits fruits, myGameGUI myGame){
-        List<String> log = game.move();
-        if (log !=null ){
-            for(int i = 0 ; i< log.size(); i++){
-                String robot_json = log.get(i);
-                try {
-                    JSONObject line = new JSONObject(robot_json);
-                    JSONObject ttt = line.getJSONObject("Robot");
-                    int robot_id = ttt.getInt("id");
-                    int src = ttt.getInt("src");
-                    int dest = ttt.getInt("dest");
-                    int speed = ttt.getInt("speed");
-
-                    gameRobots allRobots = new gameRobots(graph, game);
-                    fruits = new gameFruits(game, graph);
-
-                    if(dest==-1) {
-                       if(auto_mode){
-                           if (robot_id == 0){
-                               if (speed > 3){
-                                   dest = nextNodePriority(game, graph, robot_id, fruits, true, src);
-                               } else {
-                                   dest = nextNodePriority(game, graph, robot_id, fruits, false, src);
-                               }
-                           }
-                           if (robot_id == 1){
-                                dest = nextNode2(game, fruits, graph, robot_id, src);
-                           }
-
-                       }
-                    }
-                }
-                catch (JSONException e) {e.printStackTrace();}
-            }
-        }
-
-    }
 
     /**
      * This method is similar with to nextNode, the difference is noticing the speed parameter when choosing
@@ -189,6 +152,8 @@ public class myGameGUI extends JFrame
         Graph_Algo algo =  new Graph_Algo(dgraph);
         Fruit maxValue =  fruits.MaxFruit();
         int maxId = maxValue.getId();
+
+
 
         edge_data edge_of_fruit = fruits.edgeOfFruit(maxId);
         if (edge_of_fruit != null){

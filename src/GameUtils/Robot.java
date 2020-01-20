@@ -111,7 +111,7 @@ public class Robot {
         this.path = path;
     }
 
-    private double stickToEdge(node_data n1, node_data n2, double x){
+    public double stickToEdge(node_data n1, node_data n2, double x){
         double x0 = n1.getLocation().x();
         double y0 = n1.getLocation().y();
         double x1 = n2.getLocation().x();
@@ -119,7 +119,6 @@ public class Robot {
 
         double m = (y1-y0)/(x1-x0);
         double n = y1 - m*x1;
-
 
         return (m*x + n);
     }

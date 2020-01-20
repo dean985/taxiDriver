@@ -192,6 +192,41 @@ public class gameFruits {
         return maxValue;
     }
 
+    /**
+     * if a fruit is collected then pick a random edge for it from the graph
+     * then replace it on a random point on the graph
+     * and change it's value to be random number between [0,MaxValueFruit)
+     * @param graph
+     * @param fr
+     */
+    public void replaceFruit(graph graph, Fruit fr){
+        if (fr.isCollected()){
+            int rand_key = (int)(graph.getV().size() * Math.random());
+            node_data n1 = graph.getNode(rand_key);
+            int rand_key2 = (int)(graph.getV().size() * Math.random());
+            node_data n2 = graph.getNode(rand_key2);
+            double dist = n2.getLocation().distance2D(n1.getLocation());
+            double y = stickToEdge(n1, n2,  dist*  Math.random());
+            double x = stickToEdge(n1 , n2, dist*  Math.random());
 
+            fr.setLocation(new Point3D(x,y));
+
+            fr.setVal(Math.random() * this.MaxFruit().getVal());
+
+            fr.backInGame();
+        }
+    }
+
+    public double stickToEdge(node_data n1, node_data n2, double x){
+        double x0 = n1.getLocation().x();
+        double y0 = n1.getLocation().y();
+        double x1 = n2.getLocation().x();
+        double y1 = n2.getLocation().y();
+
+        double m = (y1-y0)/(x1-x0);
+        double n = y1 - m*x1;
+
+        return (m*x + n);
+    }
 
 }
