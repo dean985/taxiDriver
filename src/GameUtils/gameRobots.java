@@ -2,7 +2,10 @@ package GameUtils;
 
 import Server.Game_Server;
 import Server.game_service;
+import algorithms.Graph_Algo;
+import dataStructure.edge_data;
 import dataStructure.graph;
+import dataStructure.node_data;
 import org.json.JSONException;
 import org.json.JSONObject;
 import utils.Point3D;
@@ -108,6 +111,102 @@ public class gameRobots {
     public ArrayList<Robot> Robots(){
         return new ArrayList<Robot>(allRobots);
     }
+
+    /**
+     * This method is similar with to nextNode, the difference is noticing the speed parameter when choosing
+     * the closest fruit. If speed is true then it gives better path based on Shortest path.
+     * If speed is false, then algorithm based on proximity of points, which is inferior.
+     *
+     * @param game
+     * @param graph
+     * @param robot_id
+     * @param fruits
+     * @param speed
+     * @param src
+     * @return
+     */
+    public static int nextNodePriority(game_service game, graph graph, int robot_id, gameFruits fruits, boolean speed, int src){
+        gameRobots allRobots = new gameRobots(graph, game);
+        Graph_Algo algo = new Graph_Algo(graph);
+
+        Robot robot = allRobots.getRobotByID(robot_id);
+        Fruit fru = fruits.getnearFruit(speed, src);
+        int fru_id = fru.getId();
+
+        edge_data edge_of_fruit = fruits.edgeOfFruit(fru_id);
+
+        if( edge_of_fruit != null){
+            if (edge_of_fruit.getSrc() == src) return edge_of_fruit.getDest();
+            if (edge_of_fruit.getDest() == src) return edge_of_fruit.getSrc();
+            if (fru.getType() == GameUtils.fruits.BANANA){
+                List<node_data> Path = algo.shortestPath(src, edge_of_fruit.getDest());
+                return Path.get(1).getKey();
+            }else{
+                List<node_data> Path = algo.shortestPath(src, edge_of_fruit.getSrc());
+                return Path.get(1).getKey();
+            }
+        }
+
+        return -1;
+    }
+
+    /**
+     * In case of automatic mode finding the next node based on high value fruit
+     * @param game
+     * @param dgraph
+     * @param robot_id
+     * @param node_src
+     * @param fruits
+     * @return
+     */
+    private static int autoNextNode(game_service game, graph dgraph, int robot_id, int node_src, gameFruits fruits){
+        Graph_Algo algo =  new Graph_Algo(dgraph);
+        Fruit maxValue =  fruits.MaxFruit();
+        int maxId = maxValue.getId();
+
+        edge_data edge_of_fruit = fruits.edgeOfFruit(maxId);
+        if (edge_of_fruit != null){
+            if (edge_of_fruit.getDest() == node_src ){
+                return edge_of_fruit.getSrc();
+            }
+
+            if (edge_of_fruit.getSrc() == node_src){
+                return edge_of_fruit.getDest();
+            }
+
+            if (maxValue.getType() == GameUtils.fruits.BANANA ){
+                List<node_data> Path = algo.shortestPath(node_src, edge_of_fruit.getDest());
+                return Path.get(1).getKey();
+            }else {
+                List<node_data> Path = algo.shortestPath(node_src, edge_of_fruit.getSrc());
+                return Path.get(1).getKey();
+            }
+        }
+
+        return 0;
+    }
+
+    /**
+     * The General method to find next node key
+     * @param game
+     * @param fruits
+     * @param graph
+     * @param robot_id
+     * @param node_src
+     * @return node key
+     */
+    private static int nextNode2(game_service game, gameFruits fruits, graph graph, int robot_id, int node_src,boolean auto_mode){
+        if (auto_mode){
+            return autoNextNode(game, graph, robot_id, node_src, fruits);
+        }else{
+            /**
+             * get X and Y from mouse
+             */
+            //node_src = clickToNode(x, y);
+            return node_src;
+        }
+    }
+
 
 
 

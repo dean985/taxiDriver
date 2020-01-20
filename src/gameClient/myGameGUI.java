@@ -72,7 +72,7 @@ public class myGameGUI extends JFrame
 
          if( r.move_to_dest(dGraph))
          {
-           r.setNext_node(nextNode2(this.gameservice,this.game_fruits,dGraph,2,r.getCurrent_node()));
+           r.setNext_node(nextNode2(this.gameservice,this.game_fruits,dGraph,r.getId(),r.getCurrent_node()));
          }
 
         }

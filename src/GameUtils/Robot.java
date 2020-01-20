@@ -15,7 +15,7 @@ public class Robot {
     int current_node;
     int next_node = -1;
     Queue<Integer> path;
-    double speed = 0.00003;
+    double speed = 0.00009;
 
 
     public Robot (int id, Point3D p){
@@ -105,6 +105,7 @@ public class Robot {
         }
         else
         {
+            this.current_node = this.next_node;
            return true;
         }
 
