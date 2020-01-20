@@ -2,10 +2,7 @@ package GameUtils;
 
 import Server.game_service;
 import algorithms.Graph_Algo;
-import dataStructure.NodeData;
-import dataStructure.edge_data;
-import dataStructure.graph;
-import dataStructure.node_data;
+import dataStructure.*;
 import org.json.JSONObject;
 import utils.Point3D;
 
@@ -37,6 +34,10 @@ public class gameFruits {
 
                 Fruit newFruit = new Fruit(fruit);
                 newFruit.setId(j);
+
+                Edge e = (Edge)edgeOfFruit(newFruit.id);
+                e.addFruittoEdge(newFruit);
+
 
                 allFruits.add(newFruit);
 
