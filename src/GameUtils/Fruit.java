@@ -127,13 +127,13 @@ public class Fruit {
 
             int rand_key = (int)(graph.getV().size() * Math.random());
             node_data n1 = graph.getNode(rand_key);
-            int rand_key2 = (int)(graph.getV().size() * Math.random());
+            int rand_key2 = (int) (graph.getE(rand_key).size() * Math.random());//(int)(graph.getV().size() * Math.random());
             node_data n2 = graph.getNode(rand_key2);
             double dist = n2.getLocation().distance2D(n1.getLocation());
-            double y = stickToEdge(n1, n2,  dist*  Math.random());
-            double x = stickToEdge(n1 , n2, dist*  Math.random());
-
-            this.setLocation(new Point3D(x,y));
+            //double y = stickToEdge(n1, n2,  dist*  Math.random());
+            double x = dist*  Math.random();
+            double y = stickToEdge(n1 , n2, x);
+            this.setLocation(new Point3D(x,y,0));
             int maxVAL = 30;
             this.setVal(Math.random() * maxVAL);
             //this.collected = false;
