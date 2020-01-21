@@ -124,6 +124,16 @@ public class gui_graph extends JFrame implements   ActionListener, MouseListener
         }
     }
 
+    void draw_points(Graphics p)
+    {
+
+        p.setFont((new Font("Arial", Font.BOLD, 18)));
+
+        p.drawString("points for robot 1 :" + robots_list.iterator().next().getValue() , 20 , 60 );
+
+    }
+
+
     void draw_npc(Graphics p)
     {
         ImageIcon car = new ImageIcon("assets/car_npc.png");
@@ -163,6 +173,7 @@ public class gui_graph extends JFrame implements   ActionListener, MouseListener
             super.paint(p);
             draw_fruit(p);
             draw_npc(p);
+            draw_points(p);
             p.dispose();
 
     }
@@ -304,7 +315,6 @@ public class gui_graph extends JFrame implements   ActionListener, MouseListener
                 p_n = n.getLocation();
                 p_n = world_to_frame(p_n);
                 p.fillOval(p_n.ix()- (size_node/2), p_n.iy() - (size_node/2), size_node, size_node);
-                p.drawString(""+n.getKey(), p_n.ix() ,p_n.iy()  );
                 for( edge_data edge : Graph.getE(n.getKey())){
                     // paint edges of each node in the graph
                     p.setColor(Color.BLUE);

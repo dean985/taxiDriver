@@ -124,7 +124,7 @@ public class Fruit {
      * @param graph
      */
     public void replaceFruit(graph graph){
-        if (this.isCollected()){
+
             int rand_key = (int)(graph.getV().size() * Math.random());
             node_data n1 = graph.getNode(rand_key);
             int rand_key2 = (int)(graph.getV().size() * Math.random());
@@ -137,7 +137,7 @@ public class Fruit {
             int maxVAL = 30;
             this.setVal(Math.random() * maxVAL);
             //this.collected = false;
-        }
+
     }
 
 
