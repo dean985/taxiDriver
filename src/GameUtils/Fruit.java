@@ -1,10 +1,15 @@
 package GameUtils;
 
+import dataStructure.Edge;
+import dataStructure.edge_data;
 import dataStructure.graph;
 import dataStructure.node_data;
 import org.json.JSONException;
 import org.json.JSONObject;
 import utils.Point3D;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Fruit {
     private fruits type;                //Type of fruit - Banana or Apple
@@ -128,10 +133,16 @@ public class Fruit {
             int rand_key = (int)(graph.getV().size() * Math.random());
             node_data n1 = graph.getNode(rand_key);
             int rand_key2 = (int) (graph.getE(rand_key).size() * Math.random());//(int)(graph.getV().size() * Math.random());
-            node_data n2 = graph.getNode(rand_key2);
+             Iterator<edge_data> edgeIterator = graph.getE(rand_key).iterator();
+             Edge temp = null;
+                for (int i = 0; i <= rand_key2; i++) {
+                    temp = (Edge) edgeIterator.next();
+                }
+
+                node_data n2 = graph.getNode(temp.getDest());
             double dist = n2.getLocation().distance2D(n1.getLocation());
             //double y = stickToEdge(n1, n2,  dist*  Math.random());
-            double x = dist*  Math.random();
+            double x = n1.getLocation().x() + dist*  Math.random(); //stickToEdge(n1, n2,  dist*  Math.random());
             double y = stickToEdge(n1 , n2, x);
             this.setLocation(new Point3D(x,y,0));
             int maxVAL = 30;

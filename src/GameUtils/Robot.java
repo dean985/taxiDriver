@@ -150,7 +150,7 @@ public class Robot {
      * @param graph
      */
     public void robotCollect(graph graph  ){
-        double EPS = 0.001;
+        double EPS = 0.0001;
         Edge e = (Edge) this.edgeOfRobot(graph);
         ArrayList<Fruit> fruitEdge = e.getFruits();
         Iterator<Fruit> fruitIter = fruitEdge.iterator();
