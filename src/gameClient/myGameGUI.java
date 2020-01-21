@@ -43,6 +43,7 @@ public class myGameGUI extends JFrame
         OOP_DGraph oopdGraph = new OOP_DGraph();
         oopdGraph.init(g);
         dGraph  = new DGraph(oopdGraph);
+
         //todo: implement input dialog for boolean auto-mode
         game_robots = new gameRobots(dGraph, gameservice);
         game_fruits = new gameFruits(gameservice, dGraph);
@@ -78,12 +79,12 @@ public class myGameGUI extends JFrame
            r.setNext_node(nextNode2(this.gameservice,this.game_fruits,dGraph,r.getId(),r.getCurrent_node()));
          }
          //New function for robot
-        r.robotCollect(dGraph);
+             r.robotCollect(dGraph);
 
         }
 
        guiGraph.update_frame((ArrayList<Fruit>) game_fruits.getFruitList(),game_robots.Robots());
-        Iterator<Fruit> fruitIter = game_fruits.getFruitList().iterator();
+       // Iterator<Fruit> fruitIter = game_fruits.getFruitList().iterator();
 //        while (fruitIter)
 //        System.out.println();
     }
@@ -100,6 +101,7 @@ public class myGameGUI extends JFrame
             Fruit temp = allFruits.get(i);
 
             Edge e = (Edge) fruits.edgeOfFruit(temp.id);
+
             e.addFruittoEdge(temp);
         }
 
@@ -158,8 +160,6 @@ public class myGameGUI extends JFrame
         Graph_Algo algo =  new Graph_Algo(dgraph);
         Fruit maxValue =  fruits.MaxFruit();
         int maxId = maxValue.getId();
-
-
 
         edge_data edge_of_fruit = fruits.edgeOfFruit(maxId);
         if (edge_of_fruit != null){
@@ -233,7 +233,7 @@ public class myGameGUI extends JFrame
 
     public static void main(String[] args) {
 
-        myGameGUI gameGUI = new myGameGUI(19);
+        myGameGUI gameGUI = new myGameGUI(1);
 
 
         gameGUI.drawGraph();
