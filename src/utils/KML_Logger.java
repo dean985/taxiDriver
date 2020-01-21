@@ -64,7 +64,7 @@ public class KML_Logger
             ///////// style /////////////////
 
             Element Style = doc.createElement("Style");
-            doc.appendChild(Style);
+            supercar.appendChild(Style);
             Style.setAttribute("id","Robots_style");
 
                 Element IconStyle =  doc.createElement("IconStyle");
@@ -75,7 +75,8 @@ public class KML_Logger
                     Element Icon = doc.createElement("Icon");
                         Element href  = doc.createElement("href");
                         href.appendChild(doc.createTextNode("https://cdn0.iconfinder.com/data/icons/black-logistics-icons/256/Robot_head.png"));
-                IconStyle.appendChild(Icon);
+                        Icon.appendChild(href);
+                    IconStyle.appendChild(Icon);
 
             Style.appendChild(IconStyle);
 
@@ -136,7 +137,8 @@ public class KML_Logger
 
                 placemark2 = doc.createElement("Placemark");
                 Element style_mark = doc.createElement("styleUrl");
-                style_mark.appendChild(doc.createTextNode("Robots_style"));
+                style_mark.appendChild(doc.createTextNode("#Robots_style"));
+                placemark2.appendChild(style_mark);
                 Element Point = doc.createElement("Point");
                 name = doc.createElement("coordinates");
                 name.appendChild(doc.createTextNode(robotIterator.next().getLocation().toString()));
