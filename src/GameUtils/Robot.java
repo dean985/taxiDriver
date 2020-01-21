@@ -17,7 +17,7 @@ public class Robot {
     int current_node;
     int next_node = -1;
     Queue<Integer> path;
-    double speed = 0.00009;
+    double speed = 0.00001;
 
 
     public Robot (int id, Point3D p){
@@ -89,7 +89,7 @@ public class Robot {
         double dist =this.location.distance2D(dGraph.getNode(next_node).getLocation());
 
 
-        if(dist > 0.0001)
+        if(dist > 0.00009)
         {
             if (this.location.x() > dGraph.getNode(next_node).getLocation().x() ){
             // dist*=-1;
@@ -98,15 +98,6 @@ public class Robot {
             this.location.set_x(this.location.x() + speed*back);
             this.location.set_y(stickToEdge(dGraph.getNode(current_node),dGraph.getNode(next_node), this.location.x()));
 
-            //this.robotCollect(dGraph);
-            //Edge current_edge = (Edge)(dGraph.getEdge(current_node, next_node));
-//            if (!current_edge.getFruits().isEmpty()){
-//                for(int i = 0 ; i<current_edge.getFruits().size(); i++){
-//                    if (this.location.distance2D(current_edge.getFruits().get(i).getLocation()) < 0.00001){
-//                        current_edge.getFruits().get(i).collect();
-//                    }
-//                }
-//            }
 
         }
         else
@@ -149,18 +140,25 @@ public class Robot {
      * add value to robot
      * @param graph
      */
-    public void robotCollect(graph graph  ){
-        double EPS = 0.0001;
+    public boolean robotCollect(graph graph  ){
+        boolean collectedsomthing = false;
+        double EPS = 0.0009;//0.00008
         Edge e = (Edge) this.edgeOfRobot(graph);
         ArrayList<Fruit> fruitEdge = e.getFruits();
         Iterator<Fruit> fruitIter = fruitEdge.iterator();
 
         while(fruitIter.hasNext()){
+            System.out.println("start robotCollect() while");
+
             Fruit current_fruit = fruitIter.next();
+           // System.out.println(current_fruit.getLocation().distance2D(this.location) );
             if (current_fruit.getLocation().distance2D(this.location) <= EPS){
                 this.value+= current_fruit.getVal();
                 current_fruit.replaceFruit(graph);
+                collectedsomthing = true;
+
             }
         }
+        return collectedsomthing;
     }
 }

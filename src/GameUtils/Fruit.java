@@ -138,13 +138,19 @@ public class Fruit {
                 for (int i = 0; i <= rand_key2; i++) {
                     temp = (Edge) edgeIterator.next();
                 }
+                System.out.println(" new nodes are " + rand_key + " ," + temp.getDest());
 
                 node_data n2 = graph.getNode(temp.getDest());
-            double dist = n2.getLocation().distance2D(n1.getLocation());
+            double dist = n2.getLocation().x() - n1.getLocation().x();
             //double y = stickToEdge(n1, n2,  dist*  Math.random());
-            double x = n1.getLocation().x() + dist*  Math.random(); //stickToEdge(n1, n2,  dist*  Math.random());
+             double x;
+             if(dist<0)
+                  x = n2.getLocation().x() + dist*-1*  Math.random(); //stickToEdge(n1, n2,  dist*  Math.random());
+            else
+                 x = n1.getLocation().x() + dist*  Math.random();
             double y = stickToEdge(n1 , n2, x);
             this.setLocation(new Point3D(x,y,0));
+
             int maxVAL = 30;
             this.setVal(Math.random() * maxVAL);
             //this.collected = false;

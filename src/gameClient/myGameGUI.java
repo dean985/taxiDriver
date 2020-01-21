@@ -79,7 +79,10 @@ public class myGameGUI extends JFrame
            r.setNext_node(nextNode2(this.gameservice,this.game_fruits,dGraph,r.getId(),r.getCurrent_node()));
          }
          //New function for robot
-             r.robotCollect(dGraph);
+             if(r.robotCollect(dGraph))
+             {
+                 fruitsToEdges(game_fruits);
+             }
 
         }
 
@@ -233,7 +236,7 @@ public class myGameGUI extends JFrame
 
     public static void main(String[] args) {
 
-        myGameGUI gameGUI = new myGameGUI(1);
+        myGameGUI gameGUI = new myGameGUI(11);
 
 
         gameGUI.drawGraph();
@@ -246,7 +249,7 @@ public class myGameGUI extends JFrame
         guiGraph.repaint();
 
         try {
-            Thread.sleep(50);
+            Thread.sleep(1);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

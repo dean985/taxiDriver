@@ -114,6 +114,8 @@ public class gui_graph extends JFrame implements   ActionListener, MouseListener
         {
            temp_fruit = fruitsIterator.next();
            temp_location =  this.world_to_frame(temp_fruit.getLocation());
+            NumberFormat formatter = new DecimalFormat("#0.0");
+            p.drawString(formatter.format(temp_fruit.getVal()), temp_location.ix() ,temp_location.iy() - 2 );
 
 
             if (temp_fruit.getType() == fruits.BANANA)
@@ -124,14 +126,6 @@ public class gui_graph extends JFrame implements   ActionListener, MouseListener
         }
     }
 
-    void draw_points(Graphics p)
-    {
-
-        p.setFont((new Font("Arial", Font.BOLD, 18)));
-
-        p.drawString("points for robot 1 :" + robots_list.iterator().next().getValue() , 20 , 60 );
-
-    }
 
 
     void draw_npc(Graphics p)
@@ -145,7 +139,11 @@ public class gui_graph extends JFrame implements   ActionListener, MouseListener
         {
            temp_robot = robotIterator.next();
            temp_location =  this.world_to_frame(temp_robot.getLocation());
-           p.drawImage(car.getImage(),temp_location.ix() - car.getIconWidth()/2,temp_location.iy(),(int)(width_window*0.062),(int)(height_window*0.062),this);
+            p.setFont((new Font("Arial", Font.PLAIN, 11)));
+            NumberFormat formatter = new DecimalFormat("#0.0");
+            p.setColor(Color.GREEN);
+            p.drawString(formatter.format(temp_robot.getValue()), temp_location.ix() ,temp_location.iy()  );
+            p.drawImage(car.getImage(),temp_location.ix() - car.getIconWidth()/2,temp_location.iy(),(int)(width_window*0.062),(int)(height_window*0.062),this);
         }
     }
 
@@ -173,7 +171,7 @@ public class gui_graph extends JFrame implements   ActionListener, MouseListener
             super.paint(p);
             draw_fruit(p);
             draw_npc(p);
-            draw_points(p);
+            //draw_points(p);
             p.dispose();
 
     }
@@ -315,6 +313,7 @@ public class gui_graph extends JFrame implements   ActionListener, MouseListener
                 p_n = n.getLocation();
                 p_n = world_to_frame(p_n);
                 p.fillOval(p_n.ix()- (size_node/2), p_n.iy() - (size_node/2), size_node, size_node);
+                p.drawString(""+n.getKey(), p_n.ix() ,p_n.iy()  );
                 for( edge_data edge : Graph.getE(n.getKey())){
                     // paint edges of each node in the graph
                     p.setColor(Color.BLUE);
