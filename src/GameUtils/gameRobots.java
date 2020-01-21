@@ -44,11 +44,12 @@ public class gameRobots {
                 JSONObject currentLine = new JSONObject(str);
                 JSONObject rob = currentLine.getJSONObject("Robot");
                 int id = rob.getInt("id");
+                int first_node = rob.getInt("src");
                 String location = rob.getString("pos");
                 String pos[] = location.split(",");
                 double x = Double.parseDouble(pos[0]);
                 double y = Double.parseDouble(pos[1]);
-                Robot robot = new Robot(id, new Point3D(x,y));
+                Robot robot = new Robot(id, new Point3D(x,y),first_node);
                 allRobots.add(robot);
             }catch (Exception e){
                 System.out.println("Problem with parsing the robot's JSON");

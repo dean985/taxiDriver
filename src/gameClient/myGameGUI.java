@@ -58,8 +58,9 @@ public class myGameGUI extends JFrame
     public void drawGraph()
     {
         //// Todo: if have time include intro screen
+        guiGraph  = new gui_graph(dGraph, (ArrayList<Fruit>) this.game_fruits.getFruitList(),this.game_robots.Robots());
 
-         guiGraph  = new gui_graph(dGraph, (ArrayList<Fruit>) this.game_fruits.getFruitList(),this.game_robots.Robots());
+         //guiGraph  = new gui_graph(dGraph, (ArrayList<Fruit>) this.game_fruits.getFruitList(),this.game_robots.Robots());
 
     }
 
@@ -72,6 +73,7 @@ public class myGameGUI extends JFrame
         {
 
             r = robotsIter.next();
+            gameservice.move();
 
          if( r.move_to_dest(dGraph))
          {
