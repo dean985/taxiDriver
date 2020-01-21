@@ -1,5 +1,7 @@
 package GameUtils;
 
+import dataStructure.graph;
+import dataStructure.node_data;
 import org.json.JSONException;
 import org.json.JSONObject;
 import utils.Point3D;
@@ -8,7 +10,7 @@ public class Fruit {
     private fruits type;                //Type of fruit - Banana or Apple
     private double val;                 //Value of fruit
     private Point3D location;           //Location of fruit
-    private boolean collected = false ;          //Whether the fruit was collected by a robot
+    private boolean collected ;          //Whether the fruit was collected by a robot
     public int id;
     public Fruit(){
         ;
@@ -104,12 +106,38 @@ public class Fruit {
         return collected;
     }
 
+//    /**
+//     * If fruit is collected, then randomly chooses a new edge for it.
+//     * different value
+//     */
+//    public void backInGame(graph graph){
+//        if (this.isCollected()) {
+//            this.replaceFruit(graph);
+//            this.collected = false;
+//        }
+//    }
+
     /**
-     * If fruit is collected, then randomly chooses a new edge for it.
-     * different value
+     * if a fruit is collected then pick a random edge for it from the graph
+     * then replace it on a random point on the graph
+     * and change it's value to be random number between [0,MaxValueFruit)
+     * @param graph
      */
-    public void backInGame(){
-        this.collected = false;
+    public void replaceFruit(graph graph){
+        if (this.isCollected()){
+            int rand_key = (int)(graph.getV().size() * Math.random());
+            node_data n1 = graph.getNode(rand_key);
+            int rand_key2 = (int)(graph.getV().size() * Math.random());
+            node_data n2 = graph.getNode(rand_key2);
+            double dist = n2.getLocation().distance2D(n1.getLocation());
+            double y = stickToEdge(n1, n2,  dist*  Math.random());
+            double x = stickToEdge(n1 , n2, dist*  Math.random());
+
+            this.setLocation(new Point3D(x,y));
+            int maxVAL = 30;
+            this.setVal(Math.random() * maxVAL);
+            //this.collected = false;
+        }
     }
 
 
@@ -127,4 +155,18 @@ public class Fruit {
         return this.id;
     }
 
+
+
+
+    public double stickToEdge(node_data n1, node_data n2, double x){
+        double x0 = n1.getLocation().x();
+        double y0 = n1.getLocation().y();
+        double x1 = n2.getLocation().x();
+        double y1 = n2.getLocation().y();
+
+        double m = (y1-y0)/(x1-x0);
+        double n = y1 - m*x1;
+
+        return (m*x + n);
+    }
 }

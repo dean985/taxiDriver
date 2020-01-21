@@ -74,13 +74,18 @@ public class myGameGUI extends JFrame
 
          if( r.move_to_dest(dGraph))
          {
-             System.out.println("changed node");
+             //System.out.println("changed node");
            r.setNext_node(nextNode2(this.gameservice,this.game_fruits,dGraph,r.getId(),r.getCurrent_node()));
          }
+         //New function for robot
+        r.robotCollect(dGraph);
 
         }
 
        guiGraph.update_frame((ArrayList<Fruit>) game_fruits.getFruitList(),game_robots.Robots());
+        Iterator<Fruit> fruitIter = game_fruits.getFruitList().iterator();
+//        while (fruitIter)
+//        System.out.println();
     }
 
     /**
@@ -241,7 +246,7 @@ public class myGameGUI extends JFrame
         guiGraph.repaint();
 
         try {
-            Thread.sleep(200);
+            Thread.sleep(50);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

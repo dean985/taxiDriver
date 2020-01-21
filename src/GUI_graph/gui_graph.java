@@ -1,6 +1,7 @@
 package GUI_graph;//import Point3D;
 import GameUtils.Fruit;
 import GameUtils.fruits;
+import GameUtils.gameFruits;
 import algorithms.Graph_Algo;
 import dataStructure.*;
 
@@ -26,6 +27,7 @@ public class gui_graph extends JFrame implements   ActionListener, MouseListener
     private Graph_Algo algo;
     private ArrayList<Fruit> fruits_list;
     private ArrayList<GameUtils.Robot> robots_list;
+
 
     int width_window;
     int height_window;
@@ -93,6 +95,8 @@ public class gui_graph extends JFrame implements   ActionListener, MouseListener
         this.addMouseListener(this);
 
 
+
+
     }
 
 
@@ -111,13 +115,12 @@ public class gui_graph extends JFrame implements   ActionListener, MouseListener
            temp_fruit = fruitsIterator.next();
            temp_location =  this.world_to_frame(temp_fruit.getLocation());
 
-           if(!temp_fruit.isCollected())
-           {
-               if (temp_fruit.getType() == fruits.BANANA)
-                   p.drawImage(banana.getImage(), temp_location.ix(), temp_location.iy(), (int) (width_window * 0.042), (int) (height_window * 0.042), this);
-               if (temp_fruit.getType() == fruits.APPLE)
-                   p.drawImage(apple.getImage(), temp_location.ix(), temp_location.iy(), (int) (width_window * 0.042), (int) (height_window * 0.042), this);
-           }
+
+            if (temp_fruit.getType() == fruits.BANANA)
+               p.drawImage(banana.getImage(), temp_location.ix(), temp_location.iy(), (int) (width_window * 0.042), (int) (height_window * 0.042), this);
+           if (temp_fruit.getType() == fruits.APPLE)
+               p.drawImage(apple.getImage(), temp_location.ix(), temp_location.iy(), (int) (width_window * 0.042), (int) (height_window * 0.042), this);
+
         }
     }
 

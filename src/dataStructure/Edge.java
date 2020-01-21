@@ -120,5 +120,9 @@ public class Edge implements edge_data, Serializable {
         this.fruits_edge.add(f);
     }
 
+    public ArrayList<Fruit> getFruits(){
+        return fruits_edge;
+    }
+
 
 }
