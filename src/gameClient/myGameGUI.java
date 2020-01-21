@@ -58,7 +58,7 @@ public class myGameGUI extends JFrame
     public void drawGraph()
     {
         //// Todo: if have time include intro screen
-        guiGraph  = new gui_graph(dGraph, (ArrayList<Fruit>) this.game_fruits.getFruitList(),this.game_robots.Robots());
+        guiGraph  = new gui_graph(dGraph, (ArrayList<Fruit>) this.game_fruits.getFruitList(),this.game_robots.Robots(),gameservice);
 
          //guiGraph  = new gui_graph(dGraph, (ArrayList<Fruit>) this.game_fruits.getFruitList(),this.game_robots.Robots());
 
@@ -240,12 +240,13 @@ public class myGameGUI extends JFrame
 
         myGameGUI gameGUI = new myGameGUI(11);
 
-
+        gameGUI.gameservice.startGame();
         gameGUI.drawGraph();
 
        // gameGUI.gameservice.startGame();
-    while (true) {
+    while (gameGUI.gameservice.timeToEnd() > 0) {
 
+        System.out.println(gameGUI.gameservice.timeToEnd());
         gameGUI.update();
 
         guiGraph.repaint();
@@ -257,6 +258,7 @@ public class myGameGUI extends JFrame
         }
 
     }
+        System.out.println("finished");
 
     }
 

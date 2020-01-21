@@ -1,7 +1,9 @@
 package GUI_graph;//import Point3D;
 import GameUtils.Fruit;
+import GameUtils.Robot;
 import GameUtils.fruits;
 import GameUtils.gameFruits;
+import Server.game_service;
 import algorithms.Graph_Algo;
 import dataStructure.*;
 
@@ -42,6 +44,8 @@ public class gui_graph extends JFrame implements   ActionListener, MouseListener
     private Image i;
     private Graphics bufferring_graphic;
 
+    game_service gameservice;
+
     Timer time;
     int delay = 8;
 
@@ -60,11 +64,12 @@ public class gui_graph extends JFrame implements   ActionListener, MouseListener
     }
 
 
-    public  gui_graph(graph g,ArrayList<Fruit> fruits_list, ArrayList<GameUtils.Robot> robots_list){
+    public  gui_graph(graph g,ArrayList<Fruit> fruits_list, ArrayList<GameUtils.Robot> robots_list,  game_service  gameservice){
         super("Truck Manger");
 //        if(fruits_list == null) throw Exception("no fruit list added");
         this.fruits_list = fruits_list;
         this.robots_list = robots_list;
+        this.gameservice = gameservice;
         algo = new Graph_Algo();
         this.Graph = (DGraph) g;
         algo.init(g);
@@ -143,6 +148,9 @@ public class gui_graph extends JFrame implements   ActionListener, MouseListener
             NumberFormat formatter = new DecimalFormat("#0.0");
             p.setColor(Color.GREEN);
             p.drawString(formatter.format(temp_robot.getValue()), temp_location.ix() ,temp_location.iy()  );
+            p.setColor(Color.blue);
+            p.drawString("id " + temp_robot.getId() , temp_location.ix() ,temp_location.iy()-10 );
+
             p.drawImage(car.getImage(),temp_location.ix() - car.getIconWidth()/2,temp_location.iy(),(int)(width_window*0.062),(int)(height_window*0.062),this);
         }
     }
@@ -172,12 +180,39 @@ public class gui_graph extends JFrame implements   ActionListener, MouseListener
             draw_fruit(p);
             draw_npc(p);
             //draw_points(p);
+
+        if(gameservice.timeToEnd()<=0)
+        {
+            draw_game_over(p);
+        }
             p.dispose();
 
     }
 
+    private void draw_game_over(Graphics p)
+    {
+        p.setFont((new Font("Arial", Font.BOLD, 23)));
+        p.drawString("Game Over!", width_window/2 ,height_window/2  );
 
+         Iterator<Robot> iterator = robots_list.iterator();
+         double max = 0;
+         int max_robot = 0;
+        Robot temp;
+         while (iterator.hasNext())
+         {
+             temp = iterator.next();
 
+             if(temp.getValue() > max)
+             {
+                 max = temp.getValue();
+                 max_robot = temp.getId();
+             }
+
+         }
+
+        p.drawString("the winner is :" +max_robot+ " with " + max, width_window/2 ,height_window/2 - 100 );
+
+    }
 
 
     public void update_frame(ArrayList<Fruit> fruits_list, ArrayList<GameUtils.Robot> robots_list)
