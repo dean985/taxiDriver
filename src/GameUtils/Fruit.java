@@ -113,16 +113,6 @@ public class Fruit {
         return collected;
     }
 
-//    /**
-//     * If fruit is collected, then randomly chooses a new edge for it.
-//     * different value
-//     */
-//    public void backInGame(graph graph){
-//        if (this.isCollected()) {
-//            this.replaceFruit(graph);
-//            this.collected = false;
-//        }
-//    }
 
     /**
      * if a fruit is collected then pick a random edge for it from the graph
@@ -191,5 +181,13 @@ public class Fruit {
 
     public void addToPathFruits(Point3D point){
         this.Path.add(point);
+    }
+
+    /**
+     * REturn the path in a form of a queue.
+     * @return
+     */
+    public Queue<Point3D> getPath(){
+        return Path;
     }
 }

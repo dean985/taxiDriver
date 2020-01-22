@@ -96,8 +96,6 @@ public class Robot {
             if (this.location.x() > dGraph.getNode(next_node).getLocation().x() ){
                   back = -1;
              }
-//            this.location.set_x(this.location.x() + speed*back);
-//            this.location.set_y(stickToEdge(dGraph.getNode(current_node),dGraph.getNode(next_node), this.location.x()));
 
             double x = this.location.x() + speed*back;
             double y = stickToEdge(dGraph.getNode(current_node),dGraph.getNode(next_node), x);
@@ -166,5 +164,9 @@ public class Robot {
             }
         }
         return collectedsomthing;
+    }
+
+    public Queue<Integer> getPath(){
+        return path;
     }
 }
