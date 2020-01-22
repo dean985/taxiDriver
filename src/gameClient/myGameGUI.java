@@ -33,10 +33,15 @@ public class myGameGUI extends JFrame
     game_service  gameservice;
 
 
+    public myGameGUI(){
+       
 
 
 
-    public myGameGUI(int scenario_num){
+    }
+
+
+    public void init(int scenario_num){
         gameservice = Game_Server.getServer(scenario_num);
         scenario = scenario_num;
         String g = gameservice.getGraph();
@@ -234,12 +239,55 @@ public class myGameGUI extends JFrame
 
 
 
+    public int getScenario() {
+        return scenario;
+    }
+
+    public DGraph getdGraph() {
+        return dGraph;
+    }
+
+    public  gameRobots getGame_robots() {
+        return game_robots;
+    }
+
+    public  gameFruits getGame_fruits() {
+        return game_fruits;
+    }
+
+    
+    
+    
+    
+    int Show_dialog_scenerio()
+    {
+    	boolean isok = false;
+    	Object res = JOptionPane.showInputDialog(this,"set scenerio btween 1 - 23");
+    	
+    	int i =  Integer.parseInt(res.toString());
+    	while (!isok)
+    	{
+    		if(i>23 || i<1)
+    		{
+    		
+    			res = JOptionPane.showInputDialog(this,"set scenerio btween 1 - 23");
+    			i = Integer.parseInt(res.toString());
+    		}
+    		else
+    			isok = true;
+    	}
+    	
+    	return i;
+    }
+    
 
 
     public static void main(String[] args) {
 
-        myGameGUI gameGUI = new myGameGUI(11);
-
+        myGameGUI gameGUI = new myGameGUI();
+        
+        gameGUI.init(gameGUI. Show_dialog_scenerio());
+       
         gameGUI.gameservice.startGame();
         gameGUI.drawGraph();
 
@@ -263,19 +311,4 @@ public class myGameGUI extends JFrame
     }
 
 
-    public int getScenario() {
-        return scenario;
     }
-
-    public DGraph getdGraph() {
-        return dGraph;
-    }
-
-    public  gameRobots getGame_robots() {
-        return game_robots;
-    }
-
-    public  gameFruits getGame_fruits() {
-        return game_fruits;
-    }
-}
