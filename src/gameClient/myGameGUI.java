@@ -265,15 +265,15 @@ public class myGameGUI extends JFrame implements MouseListener
     int Show_dialog_scenerio()
     {
     	boolean isok = false;
-    	Object res = JOptionPane.showInputDialog(this,"set scenerio btween 1 - 23");
+    	Object res = JOptionPane.showInputDialog(this,"set scenerio btween 0 - 23");
     	
     	int i =  Integer.parseInt(res.toString());
     	while (!isok)
     	{
-    		if(i>23 || i<1)
+    		if(i>23 || i<0)
     		{
     		
-    			res = JOptionPane.showInputDialog(this,"set scenerio btween 1 - 23");
+    			res = JOptionPane.showInputDialog(this,"set scenerio btween 0 - 23");
     			i = Integer.parseInt(res.toString());
     		}
     		else
