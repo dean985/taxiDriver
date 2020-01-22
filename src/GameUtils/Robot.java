@@ -1,14 +1,13 @@
 package GameUtils;
 
+import Server.game_service;
 import dataStructure.*;
 import netscape.javascript.JSObject;
 import org.json.JSONObject;
 import utils.Point3D;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.awt.datatransfer.SystemFlavorMap;
+import java.util.*;
 
 public class Robot {
 
@@ -17,7 +16,8 @@ public class Robot {
     private Point3D location;
     int current_node;
     int next_node = -1;
-    Queue<Integer> path = new LinkedList<>();
+
+    public  LinkedHashMap<Point3D, Integer> pathTime = new LinkedHashMap<>();
     double speed = 0.00001;
 
 
@@ -27,6 +27,7 @@ public class Robot {
         this.location = p;
         this.current_node = 0;
         next_node = current_node;
+        pathTime = new LinkedHashMap<>();
     }
     public Robot (int id, Point3D p,int current_node){
         this.value = 0;
@@ -34,6 +35,7 @@ public class Robot {
         this.location = p;
         this.current_node = current_node;
         next_node = current_node;
+        pathTime = new LinkedHashMap<>();
     }
 
 
@@ -104,7 +106,9 @@ public class Robot {
         }
         else
         {
-            this.path.add(current_node);
+            Point3D node_point = dGraph.getNode(current_node).getLocation();
+
+//            this.path.add(node_point);
             this.current_node = this.next_node;
 
            return true;
@@ -113,9 +117,6 @@ public class Robot {
         return false;
     }
 
-    public void setPath(Queue<Integer> path) {
-        this.path = path;
-    }
 
     public double stickToEdge(node_data n1, node_data n2, double x){
         double x0 = n1.getLocation().x();
@@ -166,7 +167,17 @@ public class Robot {
         return collectedsomthing;
     }
 
-    public Queue<Integer> getPath(){
-        return path;
+    /**
+     * This method adds to LinkedHashMap a new entry ->   <ROBOT POINT , TIME>
+     * @param
+     */
+    public static void addTimeStamp( Robot robot,Point3D pos, int time ){
+//        Point3D robot_point = robot.location;
+//        pathTime.put(robot_point, time);
+        robot.pathTime.put(pos, time);
+    }
+
+    public LinkedHashMap<Point3D, Integer> getPathlist(){
+            return pathTime;
     }
 }

@@ -170,6 +170,8 @@ public class KML_Logger
     }
 
     public static void main(String[] args) {
+        myGameGUI game = new myGameGUI();
+        game.init(0);
 
         myGameGUI gameGUI = new myGameGUI();
         gameGUI.init(19);

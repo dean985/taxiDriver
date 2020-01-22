@@ -24,6 +24,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Timer;
 
+import static GameUtils.Robot.addTimeStamp;
+
 public class myGameGUI extends JFrame implements MouseListener
 {
     static DGraph dGraph;
@@ -293,42 +295,58 @@ public class myGameGUI extends JFrame implements MouseListener
     	return i;
     }
 
+    public static void addTimePath(int time){
+    ///// Robots
+        Iterator<Robot> robIter = game_robots.Robots().iterator();
+        while (robIter.hasNext()){
+            Robot r = robIter.next();
+            addTimeStamp(r,r.getLocation(), time);
+        }
+    ///// Fruits
+        Iterator<Fruit> fruitIter = game_fruits.getFruitList().iterator();
+        while (fruitIter.hasNext()){
+            Fruit fr = fruitIter.next();
+            Fruit.addToPathFruits(fr, fr.getLocation(), time);
+        }
+    }
+
+
 
     public static void main(String[] args) {
 
-        myGameGUI gameGUI = new myGameGUI();
+        myGameGUI gameGUI =  new myGameGUI();;
         Game_Server.login(gameGUI.Show_dialog_login());
-       try {
-    	   
-           gameGUI.init(gameGUI. Show_dialog_scenerio());
-    	   
-       }
-       catch (RuntimeException e)
-       {
-		
-    	   JOptionPane.showMessageDialog(gameGUI, e.getMessage());
-       }
-       
-        
+        try {
+            gameGUI.init(gameGUI. Show_dialog_scenerio());
+        }
+        catch (RuntimeException e){
+            JOptionPane.showMessageDialog(gameGUI, e.getMessage());
+        }
 
         gameGUI.gameservice.startGame();
         gameGUI.drawGraph();
 
-       // gameGUI.gameservice.startGame();
-    while (gameGUI.gameservice.timeToEnd() > 0) {
+        while (gameGUI.gameservice.timeToEnd() > 0) {
+            int j = 128;                                // This number should be an even number.
+                                                        // The bigger it is, the more timestamps you get
+            int time = (int)gameGUI.gameservice.timeToEnd();
+            if ( time % j == 0){
+                addTimePath( time);
+            }
 
-        //System.out.println(gameGUI.gameservice.timeToEnd());
-        gameGUI.update();
 
-        guiGraph.repaint();
+            //System.out.println(gameGUI.gameservice.timeToEnd());
+            gameGUI.update();
 
-        try {
-            Thread.sleep(1);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            guiGraph.repaint();
+
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
         }
-
-    }
         System.out.println("finished");
 
     }

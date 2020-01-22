@@ -17,10 +17,8 @@ public class Fruit {
     private Point3D location;           //Location of fruit
     private boolean collected ;          //Whether the fruit was collected by a robot
     public int id;
-    public Queue<Point3D> Path = new LinkedList<>();          //Path for kml
-    public Fruit(){
-        ;
-    }
+    //public Queue<Point3D> Path = new LinkedList<>();          //Path for kml
+    public  LinkedHashMap<Point3D, Integer> pathTime = new LinkedHashMap<>();
 
 
     /**
@@ -53,7 +51,7 @@ public class Fruit {
         location = new Point3D(x,y,0);
 
         collected = false;
-
+        pathTime = new LinkedHashMap<>();
     }
 
     /**
@@ -102,7 +100,7 @@ public class Fruit {
      */
     public void setLocation(Point3D location) {
         this.location = location;
-        this.addToPathFruits(location);
+        //this.addToPathFruits(location);
     }
 
     /**
@@ -122,30 +120,31 @@ public class Fruit {
      */
     public void replaceFruit(graph graph){
 
-            int rand_key = (int)(graph.getV().size() * Math.random());
-            node_data n1 = graph.getNode(rand_key);
-            int rand_key2 = (int) (graph.getE(rand_key).size() * Math.random());//(int)(graph.getV().size() * Math.random());
-             Iterator<edge_data> edgeIterator = graph.getE(rand_key).iterator();
-             Edge temp = null;
-                for (int i = 0; i <= rand_key2; i++) {
-                    temp = (Edge) edgeIterator.next();
-                }
-                System.out.println(" new nodes are " + rand_key + " ," + temp.getDest());
+        int rand_key = (int)(graph.getV().size() * Math.random());
+        node_data n1 = graph.getNode(rand_key);
+        int rand_key2 = (int) (graph.getE(rand_key).size() * Math.random());//(int)(graph.getV().size() * Math.random());
+         Iterator<edge_data> edgeIterator = graph.getE(rand_key).iterator();
+         Edge temp = null;
+            for (int i = 0; i <= rand_key2; i++) {
+                temp = (Edge) edgeIterator.next();
+            }
+//                System.out.println(" new nodes are " + rand_key + " ," + temp.getDest());
 
-                node_data n2 = graph.getNode(temp.getDest());
-            double dist = n2.getLocation().x() - n1.getLocation().x();
-            //double y = stickToEdge(n1, n2,  dist*  Math.random());
-             double x;
-             if(dist<0)
-                  x = n2.getLocation().x() + dist*-1*  Math.random(); //stickToEdge(n1, n2,  dist*  Math.random());
-            else
-                 x = n1.getLocation().x() + dist*  Math.random();
-            double y = stickToEdge(n1 , n2, x);
-            this.setLocation(new Point3D(x,y,0));
+        node_data n2 = graph.getNode(temp.getDest());
+        double dist = n2.getLocation().x() - n1.getLocation().x();
+         double x;
+         if(dist<0)
+              x = n2.getLocation().x() + dist*-1*  Math.random(); //stickToEdge(n1, n2,  dist*  Math.random());
+        else
+             x = n1.getLocation().x() + dist*  Math.random();
+        double y = stickToEdge(n1 , n2, x);
+        this.setLocation(new Point3D(x,y,0));
 
-            int maxVAL = 30;
-            this.setVal(Math.random() * maxVAL);
-            //this.collected = false;
+
+
+        int maxVAL = 30;
+        this.setVal(Math.random() * maxVAL);
+        //this.collected = false;
 
     }
 
@@ -179,15 +178,10 @@ public class Fruit {
         return (m*x + n);
     }
 
-    public void addToPathFruits(Point3D point){
-        this.Path.add(point);
+    public static void addToPathFruits( Fruit fr, Point3D point, int time){
+        fr.pathTime.put(point, time);
     }
 
-    /**
-     * REturn the path in a form of a queue.
-     * @return
-     */
-    public Queue<Point3D> getPath(){
-        return Path;
-    }
+
+
 }
