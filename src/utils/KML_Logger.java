@@ -171,7 +171,7 @@ public class KML_Logger
 
     public static void main(String[] args) {
 
-        KML_Logger kml_logger = new KML_Logger(new myGameGUI(19));
+        //KML_Logger kml_logger = new KML_Logger(new myGameGUI(19));
     }
 
 
