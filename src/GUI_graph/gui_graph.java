@@ -214,7 +214,7 @@ public class gui_graph extends JFrame implements   ActionListener, MouseListener
          }
          
          
-         JOptionPane.showMessageDialog(this, "Game Over! \n robot: "+ max_robot + "\n with " + formatter.format(max) + "points");
+         JOptionPane.showMessageDialog(this, "Game Over! \n robot: "+ max_robot + "\n with " + formatter.format(max) + " points");
 
 
     }

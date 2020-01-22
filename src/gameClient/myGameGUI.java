@@ -16,12 +16,15 @@ import org.json.JSONObject;
 import utils.Point3D;
 
 import javax.swing.*;
+
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.*;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Timer;
 
-public class myGameGUI extends JFrame
+public class myGameGUI extends JFrame implements MouseListener
 {
     static DGraph dGraph;
     static Timer time;
@@ -280,14 +283,34 @@ public class myGameGUI extends JFrame
     	return i;
     }
     
+    int Show_dialog_login()
+    {
+    	Object res = JOptionPane.showInputDialog(this,"enter id to login");
+    	
+    	int i =  Integer.parseInt(res.toString());
+    	
+    	
+    	return i;
+    }
 
 
     public static void main(String[] args) {
 
         myGameGUI gameGUI = new myGameGUI();
-        
-        gameGUI.init(gameGUI. Show_dialog_scenerio());
+        Game_Server.login(gameGUI.Show_dialog_login());
+       try {
+    	   
+           gameGUI.init(gameGUI. Show_dialog_scenerio());
+    	   
+       }
+       catch (RuntimeException e)
+       {
+		
+    	   JOptionPane.showMessageDialog(gameGUI, e.getMessage());
+       }
        
+        
+
         gameGUI.gameservice.startGame();
         gameGUI.drawGraph();
 
@@ -309,6 +332,41 @@ public class myGameGUI extends JFrame
         System.out.println("finished");
 
     }
+
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 
 
     }
