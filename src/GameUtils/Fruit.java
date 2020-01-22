@@ -8,8 +8,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import utils.Point3D;
 
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.*;
+import java.util.concurrent.BlockingQueue;
 
 public class Fruit {
     private fruits type;                //Type of fruit - Banana or Apple
@@ -17,6 +17,7 @@ public class Fruit {
     private Point3D location;           //Location of fruit
     private boolean collected ;          //Whether the fruit was collected by a robot
     public int id;
+    public Queue<Point3D> Path = new LinkedList<>();          //Path for kml
     public Fruit(){
         ;
     }
@@ -101,6 +102,7 @@ public class Fruit {
      */
     public void setLocation(Point3D location) {
         this.location = location;
+        this.addToPathFruits(location);
     }
 
     /**
@@ -111,16 +113,6 @@ public class Fruit {
         return collected;
     }
 
-//    /**
-//     * If fruit is collected, then randomly chooses a new edge for it.
-//     * different value
-//     */
-//    public void backInGame(graph graph){
-//        if (this.isCollected()) {
-//            this.replaceFruit(graph);
-//            this.collected = false;
-//        }
-//    }
 
     /**
      * if a fruit is collected then pick a random edge for it from the graph
@@ -185,5 +177,17 @@ public class Fruit {
         double n = y1 - m*x1;
 
         return (m*x + n);
+    }
+
+    public void addToPathFruits(Point3D point){
+        this.Path.add(point);
+    }
+
+    /**
+     * REturn the path in a form of a queue.
+     * @return
+     */
+    public Queue<Point3D> getPath(){
+        return Path;
     }
 }

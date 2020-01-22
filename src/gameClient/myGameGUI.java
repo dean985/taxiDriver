@@ -134,7 +134,7 @@ public class myGameGUI extends JFrame implements MouseListener
      * @param src
      * @return
      */
-    public static int nextNodePriority(game_service game, graph graph, int robot_id, gameFruits fruits, boolean speed, int src){
+    public static int nextNodeInferior(game_service game, graph graph, int robot_id, gameFruits fruits, boolean speed, int src){
         gameRobots allRobots = new gameRobots(graph, game);
         Graph_Algo algo = new Graph_Algo(graph);
 
@@ -317,7 +317,7 @@ public class myGameGUI extends JFrame implements MouseListener
        // gameGUI.gameservice.startGame();
     while (gameGUI.gameservice.timeToEnd() > 0) {
 
-        System.out.println(gameGUI.gameservice.timeToEnd());
+        //System.out.println(gameGUI.gameservice.timeToEnd());
         gameGUI.update();
 
         guiGraph.repaint();

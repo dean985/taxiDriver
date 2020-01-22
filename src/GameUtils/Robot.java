@@ -7,6 +7,7 @@ import utils.Point3D;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Queue;
 
 public class Robot {
@@ -16,7 +17,7 @@ public class Robot {
     private Point3D location;
     int current_node;
     int next_node = -1;
-    Queue<Integer> path;
+    Queue<Integer> path = new LinkedList<>();
     double speed = 0.00001;
 
 
@@ -62,6 +63,7 @@ public class Robot {
 
     public void setLocation(Point3D location) {
         this.location = location;
+
     }
 
 
@@ -92,17 +94,19 @@ public class Robot {
         if(dist > 0.00009)
         {
             if (this.location.x() > dGraph.getNode(next_node).getLocation().x() ){
-            // dist*=-1;
-            back = -1;
-                 }
-            this.location.set_x(this.location.x() + speed*back);
-            this.location.set_y(stickToEdge(dGraph.getNode(current_node),dGraph.getNode(next_node), this.location.x()));
+                  back = -1;
+             }
 
+            double x = this.location.x() + speed*back;
+            double y = stickToEdge(dGraph.getNode(current_node),dGraph.getNode(next_node), x);
 
+            this.setLocation(new Point3D(x,y));
         }
         else
         {
+            this.path.add(current_node);
             this.current_node = this.next_node;
+
            return true;
         }
 
@@ -148,7 +152,7 @@ public class Robot {
         Iterator<Fruit> fruitIter = fruitEdge.iterator();
 
         while(fruitIter.hasNext()){
-            System.out.println("start robotCollect() while");
+//            System.out.println("start robotCollect() while");
 
             Fruit current_fruit = fruitIter.next();
            // System.out.println(current_fruit.getLocation().distance2D(this.location) );
@@ -160,5 +164,9 @@ public class Robot {
             }
         }
         return collectedsomthing;
+    }
+
+    public Queue<Integer> getPath(){
+        return path;
     }
 }
