@@ -246,7 +246,7 @@ public class myGameGUI extends JFrame
        // gameGUI.gameservice.startGame();
     while (gameGUI.gameservice.timeToEnd() > 0) {
 
-        System.out.println(gameGUI.gameservice.timeToEnd());
+        //System.out.println(gameGUI.gameservice.timeToEnd());
         gameGUI.update();
 
         guiGraph.repaint();
