@@ -64,7 +64,7 @@ public class KML_Logger
             ///////// style /////////////////
 
             Element Style = doc.createElement("Style");
-            supercar.appendChild(Style);
+            document.appendChild(Style);
             Style.setAttribute("id","Robots_style");
 
                 Element IconStyle =  doc.createElement("IconStyle");
@@ -74,7 +74,7 @@ public class KML_Logger
 
                     Element Icon = doc.createElement("Icon");
                         Element href  = doc.createElement("href");
-                        href.appendChild(doc.createTextNode("https://cdn0.iconfinder.com/data/icons/black-logistics-icons/256/Robot_head.png"));
+                        href.appendChild(doc.createTextNode("http://icons.iconarchive.com/icons/martz90/hex/256/car-icon.png"));
                         Icon.appendChild(href);
                     IconStyle.appendChild(Icon);
 
@@ -171,7 +171,9 @@ public class KML_Logger
 
     public static void main(String[] args) {
 
-        //KML_Logger kml_logger = new KML_Logger(new myGameGUI(19));
+        myGameGUI gameGUI = new myGameGUI();
+        gameGUI.init(19);
+        KML_Logger kml_logger = new KML_Logger(gameGUI);
     }
 
 
