@@ -7,6 +7,8 @@ import org.json.JSONObject;
 import utils.Point3D;
 
 import java.awt.datatransfer.SystemFlavorMap;
+import java.sql.Time;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class Robot {
@@ -17,7 +19,8 @@ public class Robot {
     int current_node;
     int next_node = -1;
 
-    public  LinkedHashMap<Point3D, Integer> pathTime = new LinkedHashMap<>();
+    //public  LinkedHashMap<Point3D, Integer> pathTime = new LinkedHashMap<>();
+    private ArrayList<locationPath> pathRecord = new ArrayList<>();
     double speed = 0.00001;
 
 
@@ -27,7 +30,6 @@ public class Robot {
         this.location = p;
         this.current_node = 0;
         next_node = -1;//current_node;
-        pathTime = new LinkedHashMap<>();
     }
     public Robot (int id, Point3D p,int current_node){
         this.value = 0;
@@ -35,7 +37,9 @@ public class Robot {
         this.location = p;
         this.current_node = current_node;
         next_node = -1; //current_node;
-        pathTime = new LinkedHashMap<>();
+        locationPath lp = new locationPath(p);
+        this.pathRecord.add(lp);
+
     }
 
     public Robot(int id, Point3D point3D, int first_node, double speed) {
@@ -45,9 +49,27 @@ public class Robot {
          this.speed = speed;
         this.current_node = current_node;
         next_node = -1; //current_node;
-        pathTime = new LinkedHashMap<>();
+        locationPath lp = new locationPath(point3D);
+        this.pathRecord.add(lp);
 
     }
+    class locationPath{
+        Point3D p;
+        String t;
+
+
+        public locationPath(Point3D point, long time){
+            this.p = point;
+            //this.t = time;
+        }
+
+        public locationPath(Point3D point){
+            this.t = java.time.LocalDateTime.now().toString();
+            t.replace(".", ":");
+            this.p = point;
+        }
+    }
+
 
 
     public int getId() {
@@ -178,17 +200,12 @@ public class Robot {
         return collectedsomthing;
     }
 
-    /**
-     * This method adds to LinkedHashMap a new entry ->   <ROBOT POINT , TIME>
-     * @param
-     */
-    public static void addTimeStamp( Robot robot,Point3D pos, int time ){
-//        Point3D robot_point = robot.location;
-//        pathTime.put(robot_point, time);
-        robot.pathTime.put(pos, time);
+    public void addtoPath(Point3D p){
+        locationPath lp = new locationPath(p);
+        this.pathRecord.add(lp);
     }
 
-    public LinkedHashMap<Point3D, Integer> getPathlist(){
-            return pathTime;
+    public ArrayList<locationPath> getLocationPath(){
+        return this.pathRecord;
     }
 }

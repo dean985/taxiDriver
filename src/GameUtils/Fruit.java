@@ -18,7 +18,7 @@ public class Fruit {
     private boolean collected ;          //Whether the fruit was collected by a robot
     public int id;
     //public Queue<Point3D> Path = new LinkedList<>();          //Path for kml
-    public  LinkedHashMap<Point3D, Integer> pathTime = new LinkedHashMap<>();
+    private ArrayList<locationFruit> pathFruit = new ArrayList<>();
 
 
     /**
@@ -51,9 +51,20 @@ public class Fruit {
         location = new Point3D(x,y,0);
 
         collected = false;
-        pathTime = new LinkedHashMap<>();
+        locationFruit lp = new locationFruit(location);
+        this.pathFruit.add(lp);
     }
 
+    class locationFruit{
+        Point3D p;
+        String t;
+
+        public locationFruit(Point3D point){
+            this.t = java.time.LocalDateTime.now().toString();
+            t.replace(".", ":");
+            this.p = point;
+        }
+    }
 
     /**
      * This method returns the type of a fruit
@@ -101,7 +112,7 @@ public class Fruit {
      */
     public void setLocation(Point3D location) {
         this.location = location;
-        //this.addToPathFruits(location);
+        this.pathFruit.add(new locationFruit(location));
     }
 
     /**
@@ -179,8 +190,13 @@ public class Fruit {
         return (m*x + n);
     }
 
-    public static void addToPathFruits( Fruit fr, Point3D point, int time){
-        fr.pathTime.put(point, time);
+    public void addToPathFruit(Point3D p){
+        locationFruit lf = new locationFruit(p);
+        this.pathFruit.add(lf);
+    }
+
+    public ArrayList<locationFruit> getFruitPath(){
+        return this.pathFruit;
     }
 
 

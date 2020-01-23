@@ -29,7 +29,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Timer;
 
-import static GameUtils.Robot.addTimeStamp;
 
 public class myGameGUI extends JFrame implements MouseListener, Runnable
 {
@@ -214,13 +213,13 @@ public class myGameGUI extends JFrame implements MouseListener, Runnable
         Iterator<Robot> robIter = game_robots.Robots().iterator();
         while (robIter.hasNext()){
             Robot r = robIter.next();
-            addTimeStamp(r,r.getLocation(), time);
+            r.addtoPath(r.getLocation());
         }
     ///// Fruits
         Iterator<Fruit> fruitIter = game_fruits.getFruitList().iterator();
         while (fruitIter.hasNext()){
             Fruit fr = fruitIter.next();
-            Fruit.addToPathFruits(fr, fr.getLocation(), time);
+            fr.addToPathFruit(fr.getLocation());
         }
     }
 
