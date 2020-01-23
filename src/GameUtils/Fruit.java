@@ -54,6 +54,7 @@ public class Fruit {
         pathTime = new LinkedHashMap<>();
     }
 
+
     /**
      * This method returns the type of a fruit
      * @return type

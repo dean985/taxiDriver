@@ -80,6 +80,7 @@ public class myGameGUI extends JFrame implements MouseListener, Runnable
     public void update()
     {
         game_robots.moveRobots(gameservice, dGraph, game_fruits );
+        game_fruits.updateFruit(gameservice, dGraph);
 
        guiGraph.update_frame((ArrayList<Fruit>) game_fruits.getFruitList(),game_robots.Robots());
 

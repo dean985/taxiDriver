@@ -38,7 +38,6 @@ public class gameFruits {
                 allFruits.add(newFruit);
 
                 j++;
-
             }
             catch(Exception e){
                 throw new RuntimeException("Something is wrong in gameFruits input");
@@ -192,7 +191,31 @@ public class gameFruits {
         return maxValue;
     }
 
+    public void updateFruit(game_service service, graph graph){
 
+        Iterator<String> fruitsIter = service.getFruits().iterator();
+        int j = 0;
+        this.Graph = graph;
+
+        while (fruitsIter.hasNext()){
+            try{
+                JSONObject jsonLine = new JSONObject(fruitsIter.next());
+                JSONObject fruit = jsonLine.getJSONObject("Fruit");
+
+                Fruit newFruit = new Fruit(fruit);
+                newFruit.setId(j);
+
+                allFruits.add(newFruit);
+
+                j++;
+            }
+            catch(Exception e){
+                throw new RuntimeException("Something is wrong in gameFruits input");
+            }
+
+
+        }
+    }
 
 
 
