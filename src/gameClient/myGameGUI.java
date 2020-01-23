@@ -18,9 +18,12 @@ import utils.Point3D;
 
 import javax.swing.*;
 
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.*;
 import java.util.Iterator;
 import java.util.List;
@@ -72,7 +75,6 @@ public class myGameGUI extends JFrame implements MouseListener, Runnable
     public void drawGraph()
     {
         guiGraph  = new gui_graph(dGraph, (ArrayList<Fruit>) this.game_fruits.getFruitList(),this.game_robots.Robots(),gameservice);
-
          //guiGraph  = new gui_graph(dGraph, (ArrayList<Fruit>) this.game_fruits.getFruitList(),this.game_robots.Robots());
 
     }
@@ -159,28 +161,41 @@ public class myGameGUI extends JFrame implements MouseListener, Runnable
         return game_fruits;
     }
 
-    
-    
-    
-    
+
+
+    private void draw_game_over(Graphics p)
+    {
+        p.setFont((new Font("Arial", Font.BOLD, 23)));
+
+        NumberFormat formatter = new DecimalFormat("#0.0");
+
+
+
+      JOptionPane.showMessageDialog(this, "Game Over! \n robot: "+ " points");
+
+
+    }
+
+
+
     int Show_dialog_scenerio()
     {
     	boolean isok = false;
     	Object res = JOptionPane.showInputDialog(this,"set scenerio btween 0 - 23");
     	
     	int i =  Integer.parseInt(res.toString());
-    	while (!isok)
-    	{
-    		if(i>23 || i<0)
-    		{
-    		
-    			res = JOptionPane.showInputDialog(this,"set scenerio btween 0 - 23");
-    			i = Integer.parseInt(res.toString());
-    		}
-    		else
-    			isok = true;
-    	}
-    	
+//    	while (!isok)
+//    	{
+//    		if(i>23 || i<0)
+//    		{
+//
+//    			res = JOptionPane.showInputDialog(this,"set scenerio btween 0 - 23");
+//    			i = Integer.parseInt(res.toString());
+//    		}
+//    		else
+//    			isok = true;
+//    	}
+//
     	return i;
     }
     
@@ -235,7 +250,7 @@ public class myGameGUI extends JFrame implements MouseListener, Runnable
         gameGUI.drawGraph();
 
         System.out.println(gameGUI.gameservice.toString());
-        while (gameGUI.gameservice.timeToEnd() > 0) {
+        while (gameGUI.gameservice.isRunning()) {
             int j = 128;                                // This number should be an even number.
             // The bigger it is, the more timestamps you get
             int time = (int)gameGUI.gameservice.timeToEnd();
@@ -246,25 +261,27 @@ public class myGameGUI extends JFrame implements MouseListener, Runnable
 
             //System.out.println(gameGUI.gameservice.timeToEnd());
             gameGUI.update();
-
             guiGraph.repaint();
 
             try {
-                Thread.sleep(200);
+                Thread.sleep(90);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
 
         }
-       // KML_Logger kml = new KML_Logger(gameGUI);
+        KML_Logger kml = new KML_Logger(gameGUI);
 
-//        String kmlString = null;
-//        try {
-//            kmlString = Ex4_Client.cat("C:\\Dean\\CS\\OOP\\assignment\\taxiDriver\\data\\sencerio_0.kml");
-//        } catch (IOException e) {
-//            e.printStackTrace();
-       // }
-       // gameservice.sendKML(kmlString);
+        String kmlString = null;
+        try {
+            kmlString = Ex4_Client.cat("data\\sencerio_"+gameGUI.scenario+".kml");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        gameservice.sendKML(kmlString);
+        gameGUI.draw_game_over(guiGraph.getGraphics());
+
+
     }
 	@Override
 	public void mouseClicked(MouseEvent e) {

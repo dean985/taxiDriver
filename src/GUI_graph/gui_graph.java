@@ -177,44 +177,10 @@ public class gui_graph extends JFrame implements   ActionListener, MouseListener
     public void paint(Graphics p) {
 
             super.paint(p);
+           // p.clearRect(0,0,width_window,height_window);
             draw_fruit(p);
             draw_npc(p);
-            //draw_points(p);
 
-        if(gameservice.timeToEnd()<=0)
-        {
-            draw_game_over(p);
-        }
-            p.dispose();
-
-    }
-
-    private void draw_game_over(Graphics p)
-    {
-        p.setFont((new Font("Arial", Font.BOLD, 23)));
-      
-        NumberFormat formatter = new DecimalFormat("#0.0");     
-        
-        
-         Iterator<Robot> iterator = robots_list.iterator();
-         double max = 0;
-         int max_robot = 0;
-        Robot temp;
-         while (iterator.hasNext())
-         {
-             temp = iterator.next();
-
-             if(temp.getValue() > max)
-             {
-                 max = temp.getValue();
-                 max_robot = temp.getId();
-             }
-
-
-         }
-         
-         
-         JOptionPane.showMessageDialog(this, "Game Over! \n robot: "+ max_robot + "\n with " + formatter.format(max) + " points");
 
 
     }
@@ -338,7 +304,6 @@ public class gui_graph extends JFrame implements   ActionListener, MouseListener
         public void paint(Graphics g) {
             super.paint(g);
             draw_graph(g);
-
         }
         void draw_graph(Graphics p)
         {

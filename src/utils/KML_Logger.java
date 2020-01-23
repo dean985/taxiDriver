@@ -174,7 +174,7 @@ public class KML_Logger
         game.init(0);
 
         myGameGUI gameGUI = new myGameGUI();
-        gameGUI.init(19);
+        gameGUI.init(-31);
         KML_Logger kml_logger = new KML_Logger(gameGUI);
     }
 

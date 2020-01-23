@@ -223,7 +223,7 @@ public class gameRobots {
                     robotFromServer.setNext_node(gameRobots.nextNode2(service, gameFruits, graph, robotFromServer.getId(), robotFromServer.current_node, true));
                     service.chooseNextEdge(robotFromServer.getId(), robotFromServer.next_node);
                 }
-                allRobots.add(robotFromServer.getId(), robotFromServer) ;
+                allRobots.set(robotFromServer.getId(), robotFromServer) ;
             }
         }else {
             System.out.println("BIG PROBLEM");

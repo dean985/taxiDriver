@@ -147,14 +147,14 @@ public class gameFruits {
 
                     if (fast   && (dist1 > dist2) ){
                         near = current_fruit;
-                    }else{
+                    }
+                    else{
                         double nearFToSrc = near.getLocation().distance2D(src_node.getLocation());
                         double currentFToSrc = current_fruit.getLocation().distance2D(src_node.getLocation());
                         if (currentFToSrc < nearFToSrc){
                             near = current_fruit;
                         }
                     }
-
                 }
             return near;
             }
@@ -205,7 +205,7 @@ public class gameFruits {
                 Fruit newFruit = new Fruit(fruit);
                 newFruit.setId(j);
 
-                allFruits.add(newFruit);
+                allFruits.set(j,newFruit);
 
                 j++;
             }
