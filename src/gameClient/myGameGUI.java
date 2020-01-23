@@ -249,21 +249,21 @@ public class myGameGUI extends JFrame implements MouseListener, Runnable
             guiGraph.repaint();
 
             try {
-                Thread.sleep(1);
+                Thread.sleep(200);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
 
         }
-        KML_Logger kml = new KML_Logger(gameGUI);
+       // KML_Logger kml = new KML_Logger(gameGUI);
 
-        String kmlString = null;
-        try {
-            kmlString = Ex4_Client.cat("C:\\Dean\\CS\\OOP\\assignment\\taxiDriver\\data\\sencerio_0.kml");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        gameservice.sendKML(kmlString);
+//        String kmlString = null;
+//        try {
+//            kmlString = Ex4_Client.cat("C:\\Dean\\CS\\OOP\\assignment\\taxiDriver\\data\\sencerio_0.kml");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+       // }
+       // gameservice.sendKML(kmlString);
     }
 	@Override
 	public void mouseClicked(MouseEvent e) {

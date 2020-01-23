@@ -26,7 +26,7 @@ public class Robot {
         this.id = id;
         this.location = p;
         this.current_node = 0;
-        next_node = current_node;
+        next_node = -1;//current_node;
         pathTime = new LinkedHashMap<>();
     }
     public Robot (int id, Point3D p,int current_node){
@@ -34,8 +34,19 @@ public class Robot {
         this.id = id;
         this.location = p;
         this.current_node = current_node;
-        next_node = current_node;
+        next_node = -1; //current_node;
         pathTime = new LinkedHashMap<>();
+    }
+
+    public Robot(int id, Point3D point3D, int first_node, double speed) {
+        this.value = 0;
+        this.id = id;
+        this.location = point3D;
+         this.speed = speed;
+        this.current_node = current_node;
+        next_node = -1; //current_node;
+        pathTime = new LinkedHashMap<>();
+
     }
 
 

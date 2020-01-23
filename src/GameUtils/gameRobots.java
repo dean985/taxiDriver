@@ -49,7 +49,8 @@ public class gameRobots {
                 String pos[] = location.split(",");
                 double x = Double.parseDouble(pos[0]);
                 double y = Double.parseDouble(pos[1]);
-                Robot robot = new Robot(id, new Point3D(x,y),first_node);
+                double speed = rob.getInt("speed");
+                Robot robot = new Robot(id, new Point3D(x,y),first_node,speed);
                 allRobots.add(robot);
             }catch (Exception e){
                 System.out.println("Problem with parsing the robot's JSON");
