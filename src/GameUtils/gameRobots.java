@@ -211,4 +211,40 @@ public class gameRobots {
     public ArrayList<Robot> getAllRobots() {
         return allRobots;
     }
+
+    public void moveRobots(game_service service, graph graph, gameFruits gameFruits){
+        List<String> log = service.move();
+
+        if (log != null) {
+            for (int i = 0 ; i <log.size(); i++){
+                Robot robotFromServer = modifyRobot(log.get(i));
+                if (robotFromServer.getNext_node() == -1){
+                    robotFromServer.setNext_node(gameRobots.nextNode2(service, gameFruits, graph, robotFromServer.getId(), robotFromServer.current_node, true));
+                    service.chooseNextEdge(robotFromServer.getId(), robotFromServer.next_node);
+                }
+                allRobots.add(robotFromServer.getId(), robotFromServer) ;
+            }
+        }else {
+            System.out.println("BIG PROBLEM");
+        }
+    }
+    public Robot modifyRobot(String str){
+        //String str = robotsStrings.get(i);
+        try{
+            JSONObject currentLine = new JSONObject(str);
+            JSONObject rob = currentLine.getJSONObject("Robot");
+            int id = rob.getInt("id");
+            int first_node = rob.getInt("src");
+            String location = rob.getString("pos");
+            String pos[] = location.split(",");
+            double x = Double.parseDouble(pos[0]);
+            double y = Double.parseDouble(pos[1]);
+            Robot robot = new Robot(id, new Point3D(x,y),first_node);
+            return robot;
+        }catch (Exception e){
+            System.out.println("Problem with parsing the robot's JSON");
+        }
+    return null;
+    }
+
 }

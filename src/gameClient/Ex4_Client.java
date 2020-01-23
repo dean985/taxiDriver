@@ -1,5 +1,6 @@
 package gameClient;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -14,6 +15,10 @@ import oop_dataStructure.OOP_DGraph;
 import oop_dataStructure.oop_edge_data;
 import oop_dataStructure.oop_graph;
 import oop_utils.OOP_Point3D;
+import utils.KML_Logger;
+
+import javax.swing.*;
+
 /**
 * This class represents a simple example for using the GameServer API:
 * the main file performs the following tasks:
@@ -41,17 +46,54 @@ public class Ex4_Client implements Runnable{
 	
 	@Override
 	public void run() {
+	/*	myGameGUI gameGui = new myGameGUI();
+
+		int scenario_num = 0;
+		int id = 204652416;
+		Game_Server.login(id);
+
+		gameGui.init(scenario_num);
+		gameGui.gameservice.startGame();
+
+		while (gameGui.gameservice.timeToEnd() > 0){
+			int j = 128;
+			int time = (int)gameGui.gameservice.timeToEnd();
+
+			if ( time % j == 0){
+				gameGui.addTimePath(time);
+			}
+			gameGui.update();
+			try{
+				Thread.sleep(1);
+			}catch (InterruptedException e){
+				e.printStackTrace();
+			}
+		}
+		KML_Logger kml = new KML_Logger(gameGui);
+		String remark = "";
+		try {
+			 remark = cat("C:\\Dean\\CS\\OOP\\assignment\\taxiDriver\\data\\sencerio_0.kml");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String res = gameGui.gameservice.toString();
+		System.out.println(res);
+
+*/
+
+
+
 		int scenario_num = 0; // current "stage is 9, can play[0,9], can NOT 10 or above
-		int id = 999;
+		int id = 204652416;
 		Game_Server.login(id);
 		game_service game = Game_Server.getServer(scenario_num); // you have [0,23] games
-		
+
 		String g = game.getGraph();
 		List<String> fruits = game.getFruits();
 		OOP_DGraph gg = new OOP_DGraph();
 		gg.init(g);
 		init(game);
-		
+
 		game.startGame();
 		int ind=0;
 		long dt=200;
@@ -71,17 +113,54 @@ public class Ex4_Client implements Runnable{
 				e.printStackTrace();
 			}
 		}
+
+
+
 		String res = game.toString();
 		String remark = "This string should be a KML file!!";
 		game.sendKML(remark); // Should be your KML (will not work on case -1).
 		System.out.println(res);
 	}
+
+	/**
+	 * This method is returning a file as a string. Same function as cat command in bash
+	 * @param filename
+	 * @return
+	 * @throws IOException
+	 */
+	public static String cat(String filename) throws IOException{
+		final String EOL = System.getProperty("line.separator");
+
+		BufferedReader br = null;
+		FileReader fr = null;
+
+		try {
+			fr = new FileReader(filename);
+			br = new BufferedReader(fr);
+			String nextLine = "";
+			StringBuilder sb = new StringBuilder();
+			while ((nextLine = br.readLine()) != null) {
+				sb.append(nextLine);
+				sb.append(EOL);
+			}
+			return sb.toString();
+		}
+		finally {
+			if (br != null) br.close();
+			if (fr != null) fr.close();
+		}
+
+
+	}
+
+
+
 	/** 
 	 * Moves each of the robots along the edge, 
 	 * in case the robot is on a node the next destination (next edge) is chosen (randomly).
 	 * @param game
 	 * @param gg
-	 * @param log
+	 * @param
 	 */
 	private static void moveRobots(game_service game, oop_graph gg) {
 		List<String> log = game.move();
