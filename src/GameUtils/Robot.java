@@ -53,7 +53,7 @@ public class Robot {
         this.pathRecord.add(lp);
 
     }
-    class locationPath{
+   public class locationPath{
         Point3D p;
         String t;
 
@@ -68,7 +68,15 @@ public class Robot {
             t.replace(".", ":");
             this.p = point;
         }
-    }
+
+       public Point3D getP() {
+           return p;
+       }
+
+       public String getT() {
+           return t;
+       }
+   }
 
 
 
@@ -207,5 +215,9 @@ public class Robot {
 
     public ArrayList<locationPath> getLocationPath(){
         return this.pathRecord;
+    }
+
+    public void setPathRecord(ArrayList<locationPath> pathRecord) {
+        this.pathRecord = pathRecord;
     }
 }

@@ -31,7 +31,6 @@ public class gameRobots {
         int src = 0;
         if (robotsStrings != null){
             for (int i = 0 ; i < this.getRobotAmount(game); i++){
-              // allRobots.add(new Robot(i,graph.getNode(i+src).getLocation(),i+src));
                 game.addRobot(i);
 
             }
@@ -241,6 +240,7 @@ public class gameRobots {
             double x = Double.parseDouble(pos[0]);
             double y = Double.parseDouble(pos[1]);
             Robot robot = new Robot(id, new Point3D(x,y),first_node);
+            robot.setPathRecord(allRobots.get(id).getLocationPath());
             return robot;
         }catch (Exception e){
             System.out.println("Problem with parsing the robot's JSON");

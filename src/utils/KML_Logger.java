@@ -9,6 +9,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import GameUtils.Fruit;
 import GameUtils.Robot;
 import dataStructure.NodeData;
 import dataStructure.node_data;
@@ -17,6 +18,7 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import java.io.File;
+import java.sql.Time;
 import java.util.Iterator;
 
 
@@ -79,6 +81,24 @@ public class KML_Logger
                     IconStyle.appendChild(Icon);
 
             Style.appendChild(IconStyle);
+            ///////// style /////////////////
+
+            Element Style2 = doc.createElement("Style");
+            document.appendChild(Style2);
+            Style2.setAttribute("id","fruits_style");
+
+            Element IconStyle2 =  doc.createElement("IconStyle");
+            Element scale2 = doc.createElement("scale");
+            scale2.appendChild(doc.createTextNode("1.2"));
+            IconStyle2.appendChild(scale2);
+
+             Icon = doc.createElement("Icon");
+             href  = doc.createElement("href");
+            href.appendChild(doc.createTextNode("https://icons-for-free.com/download-icon-christmas+gift+gift+box+present+icon-1320184382640199846_512.png"));
+            Icon.appendChild(href);
+            IconStyle.appendChild(Icon);
+
+            Style2.appendChild(IconStyle);
 
 
             Element placemark = doc.createElement("Placemark");
@@ -134,18 +154,96 @@ public class KML_Logger
 
             while (robotIterator.hasNext())
             {
+                Robot temp_robor = robotIterator.next();
+
+                Iterator<Robot.locationPath> iterator_path =  temp_robor.getLocationPath().iterator();
+
+                while (iterator_path.hasNext())
+                {
+                    Robot.locationPath temp_locationPath = iterator_path.next();
 
                 placemark2 = doc.createElement("Placemark");
-                Element style_mark = doc.createElement("styleUrl");
+                name = doc.createElement("name");
+                name.appendChild(doc.createTextNode(temp_robor.getId() +""));
+                placemark2.appendChild(name);
+
+                    Element style_mark = doc.createElement("styleUrl");
                 style_mark.appendChild(doc.createTextNode("#Robots_style"));
                 placemark2.appendChild(style_mark);
                 Element Point = doc.createElement("Point");
                 name = doc.createElement("coordinates");
-                name.appendChild(doc.createTextNode(robotIterator.next().getLocation().toString()));
+                name.appendChild(doc.createTextNode(temp_locationPath.getP().toString()));
                 Point.appendChild(name);
                 placemark2.appendChild(Point);
+
+                    Element TimeSpan = doc.createElement("TimeSpan");
+                    Element begin = doc.createElement("begin");
+
+                    begin.appendChild(doc.createTextNode(temp_locationPath.getT()));
+
+                    Element end = doc.createElement("end");
+                    end.appendChild(doc.createTextNode(temp_locationPath.getT()));
+
+                    TimeSpan.appendChild(begin);
+                    TimeSpan.appendChild(end);
+
+                    placemark2.appendChild(TimeSpan);
                 document.appendChild(placemark2);
+                }
             }
+
+
+
+
+
+            ////////////////// draw the fruits ///////////////
+            Iterator<Fruit> fruits =  mgg.getGame_fruits().getFruitList().iterator();
+
+            while (fruits.hasNext())
+            {
+                Fruit temp_fruit = fruits.next();
+
+                Iterator<Fruit.locationFruit> iterator_path =  temp_fruit.getFruitPath().iterator();
+
+                while (iterator_path.hasNext())
+                {
+                    Fruit.locationFruit temp_locationPath = iterator_path.next();
+
+                    placemark2 = doc.createElement("Placemark");
+                 
+
+                    Element style_mark = doc.createElement("styleUrl");
+                    style_mark.appendChild(doc.createTextNode("#fruits_style"));
+                    placemark2.appendChild(style_mark);
+                    Element Point = doc.createElement("Point");
+                    name = doc.createElement("coordinates");
+                    name.appendChild(doc.createTextNode(temp_locationPath.getP().toString()));
+                    Point.appendChild(name);
+                    placemark2.appendChild(Point);
+
+                    Element TimeSpan = doc.createElement("TimeSpan");
+                    Element begin = doc.createElement("begin");
+
+                    begin.appendChild(doc.createTextNode(temp_locationPath.getT()));
+
+                    Element end = doc.createElement("end");
+                    end.appendChild(doc.createTextNode(temp_locationPath.getT()));
+
+                    TimeSpan.appendChild(begin);
+                    TimeSpan.appendChild(end);
+
+                    placemark2.appendChild(TimeSpan);
+                    document.appendChild(placemark2);
+                }
+            }
+
+
+
+
+
+
+
+
 
 
 

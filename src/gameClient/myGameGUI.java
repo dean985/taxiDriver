@@ -249,13 +249,18 @@ public class myGameGUI extends JFrame implements MouseListener, Runnable
         gameGUI.drawGraph();
 
         System.out.println(gameGUI.gameservice.toString());
+
+//      Thread t2 =  new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                while (gameservice.isRunning())
+//            }
+//        });
+//
+//      t2.start();
         while (gameGUI.gameservice.isRunning()) {
-            int j = 128;                                // This number should be an even number.
-            // The bigger it is, the more timestamps you get
-            int time = (int)gameGUI.gameservice.timeToEnd();
-            if ( time % j == 0){
-                addTimePath( time);
-            }
+
+            addTimePath(1);
 
 
             //System.out.println(gameGUI.gameservice.timeToEnd());
@@ -269,7 +274,9 @@ public class myGameGUI extends JFrame implements MouseListener, Runnable
             }
 
         }
-        KML_Logger kml = new KML_Logger(gameGUI);
+
+            KML_Logger kml = new KML_Logger(gameGUI);
+        gameGUI.draw_game_over(guiGraph.getGraphics());
 
         String kmlString = null;
         try {
@@ -277,8 +284,8 @@ public class myGameGUI extends JFrame implements MouseListener, Runnable
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         gameservice.sendKML(kmlString);
-        gameGUI.draw_game_over(guiGraph.getGraphics());
 
 
     }

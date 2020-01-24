@@ -204,7 +204,7 @@ public class gameFruits {
 
                 Fruit newFruit = new Fruit(fruit);
                 newFruit.setId(j);
-
+                newFruit.setPathFruit(allFruits.get(j).getFruitPath());
                 allFruits.set(j,newFruit);
 
                 j++;

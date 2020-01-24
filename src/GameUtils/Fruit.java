@@ -55,7 +55,7 @@ public class Fruit {
         this.pathFruit.add(lp);
     }
 
-    class locationFruit{
+   public class locationFruit{
         Point3D p;
         String t;
 
@@ -64,7 +64,15 @@ public class Fruit {
             t.replace(".", ":");
             this.p = point;
         }
-    }
+
+       public String getT() {
+           return t;
+       }
+
+       public Point3D getP() {
+           return p;
+       }
+   }
 
     /**
      * This method returns the type of a fruit
@@ -199,6 +207,7 @@ public class Fruit {
         return this.pathFruit;
     }
 
-
-
+    public void setPathFruit(ArrayList<locationFruit> pathFruit) {
+        this.pathFruit = pathFruit;
+    }
 }
