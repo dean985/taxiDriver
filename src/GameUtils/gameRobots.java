@@ -25,16 +25,27 @@ public class gameRobots {
      * @param graph
      * @param game
      */
-    public gameRobots(graph graph, game_service game){
+    public  gameRobots(graph graph, game_service game, gameFruits gf)
+    {
         this.Graph = graph;
         List<String> robotsStrings = game.getRobots();
         int src = 0;
-        if (robotsStrings != null){
-            for (int i = 0 ; i < this.getRobotAmount(game); i++){
-                game.addRobot(i);
 
+        // todo: look for fruits
+        Iterator<Fruit> fruitIterator = gf.getFruitList().iterator();
+        Fruit temp_fruit;
+
+
+            for (int i = 0 ; i < this.getRobotAmount(game); i++)
+            {
+                temp_fruit = gf.MaxFruit();
+                if(!temp_fruit.isTargeted())
+                {
+                        game.addRobot(gf.edgeOfFruit(temp_fruit.id).getSrc());
+                        //temp_fruit.setTargeted(true);
+                }
             }
-        }
+
         robotsStrings = game.getRobots();
 
         for (int i = 0 ; i < robotsStrings.size(); i++){
@@ -113,45 +124,8 @@ public class gameRobots {
         return new ArrayList<Robot>(allRobots);
     }
 
-    /**
-     * This method is similar with to nextNode, the difference is noticing the speed parameter when choosing
-     * the closest fruit. If speed is true then it gives better path based on Shortest path.
-     * If speed is false, then algorithm based on proximity of points, which is inferior.
-     *
-     * @param game
-     * @param graph
-     * @param robot_id
-     * @param fruits
-     * @param speed
-     * @param src
-     * @return
-     */
-    public static int nextNodePriority(game_service game, graph graph, int robot_id, gameFruits fruits, boolean speed, int src){
-        gameRobots allRobots = new gameRobots(graph, game);
-        Graph_Algo algo = new Graph_Algo(graph);
 
-        Robot robot = allRobots.getRobotByID(robot_id);
-        Fruit fru = fruits.getnearFruit(speed, src);
-        int fru_id = fru.getId();
-
-        edge_data edge_of_fruit = fruits.edgeOfFruit(fru_id);
-
-        if( edge_of_fruit != null){
-            if (edge_of_fruit.getSrc() == src) return edge_of_fruit.getDest();
-            if (edge_of_fruit.getDest() == src) return edge_of_fruit.getSrc();
-            if (fru.getType() == GameUtils.fruits.BANANA){
-                List<node_data> Path = algo.shortestPath(src, edge_of_fruit.getDest());
-                return Path.get(1).getKey();
-            }else{
-                List<node_data> Path = algo.shortestPath(src, edge_of_fruit.getSrc());
-                return Path.get(1).getKey();
-            }
-        }
-
-        return -1;
-    }
-
-    /**
+       /**
      * In case of automatic mode finding the next node based on high value fruit
      * @param game
      * @param dgraph
@@ -213,8 +187,8 @@ public class gameRobots {
     }
 
     public void moveRobots(game_service service, graph graph, gameFruits gameFruits){
-        List<String> log = service.move();
 
+        List<String> log = service.move();
         if (log != null) {
             for (int i = 0 ; i <log.size(); i++){
                 Robot robotFromServer = modifyRobot(log.get(i));

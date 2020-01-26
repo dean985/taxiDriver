@@ -9,17 +9,27 @@ import org.json.JSONObject;
 import utils.Point3D;
 
 import java.util.*;
-import java.util.concurrent.BlockingQueue;
 
 public class Fruit {
     private fruits type;                //Type of fruit - Banana or Apple
     private double val;                 //Value of fruit
     private Point3D location;           //Location of fruit
-    private boolean collected ;          //Whether the fruit was collected by a robot
+    private boolean targeted;          //Whether the fruit was collected by a robot
     public int id;
-    //public Queue<Point3D> Path = new LinkedList<>();          //Path for kml
     private ArrayList<locationFruit> pathFruit = new ArrayList<>();
 
+
+
+    public Fruit( int id, fruits type,double val,Point3D location,boolean targeted)
+    {
+        this.id = id;
+        this. type = type;
+        this.val = val;
+        this.location = location;
+        this.targeted = targeted;
+        locationFruit lp = new locationFruit(location);
+        this.pathFruit.add(lp);
+    }
 
     /**
      * Constructor of Fruit
@@ -31,7 +41,8 @@ public class Fruit {
      * @throws JSONException
      */
 
-    public Fruit(JSONObject json_fruit) throws JSONException {
+    public Fruit(JSONObject json_fruit) throws JSONException
+    {
         //Value
         val = json_fruit.getDouble("value");
         int type = json_fruit.getInt("type");
@@ -50,10 +61,11 @@ public class Fruit {
         double y = Double.parseDouble(point[1]);
         location = new Point3D(x,y,0);
 
-        collected = false;
+        targeted = false;
         locationFruit lp = new locationFruit(location);
         this.pathFruit.add(lp);
     }
+
 
    public class locationFruit{
         Point3D p;
@@ -127,10 +139,13 @@ public class Fruit {
      * This method is used to check if the fruit was collected by robot
      * @return true if collected
      */
-    public boolean isCollected(){
-        return collected;
+    public boolean isTargeted(){
+        return targeted;
     }
 
+    public void setTargeted(boolean targeted) {
+        this.targeted = targeted;
+    }
 
     /**
      * if a fruit is collected then pick a random edge for it from the graph
@@ -173,7 +188,7 @@ public class Fruit {
      * This method is used to collect the fruit
      */
     public void collect(){
-        this.collected = true;
+        this.targeted = true;
     }
 
     public void setId(int n){

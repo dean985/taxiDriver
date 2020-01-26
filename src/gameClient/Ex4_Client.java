@@ -39,6 +39,7 @@ import javax.swing.*;
 *
 */
 public class Ex4_Client implements Runnable{
+	static int k = 0;
 	public static void main(String[] a) {
 		Thread client = new Thread(new Ex4_Client());
 		client.start();
@@ -84,7 +85,7 @@ public class Ex4_Client implements Runnable{
 
 
 		int scenario_num = 0; // current "stage is 9, can play[0,9], can NOT 10 or above
-		int id = 204652416;
+		int id = 313534133;
 		Game_Server.login(id);
 		game_service game = Game_Server.getServer(scenario_num); // you have [0,23] games
 
@@ -100,6 +101,11 @@ public class Ex4_Client implements Runnable{
 		int jj = 0;
 		while(game.isRunning()) {
 			moveRobots(game, gg);
+			try{
+				Thread.sleep(10000);
+			}catch (InterruptedException e){
+				e.printStackTrace();
+			}
 			try {
 				List<String> stat = game.getRobots();
 				for(int i=0;i<stat.size();i++) {
@@ -165,7 +171,12 @@ public class Ex4_Client implements Runnable{
 	private static void moveRobots(game_service game, oop_graph gg) {
 		List<String> log = game.move();
 		ArrayList<OOP_Point3D> rs = new ArrayList<OOP_Point3D>();
+
+
+
 		List<String> fs =  game.getFruits();
+
+
 				if(log!=null) {
 			long t = game.timeToEnd();
 			
@@ -184,7 +195,10 @@ public class Ex4_Client implements Runnable{
 								
 					if(dest==-1) {			
 						dest = nextNode(gg, src);
-						game.chooseNextEdge(rid, dest);
+						if(k == 20) {
+							//game.chooseNextEdge(rid, dest);
+							k = 0;
+						}
 			//			System.out.println("Turn to node: "+dest+"  time to end:"+(t/1000));
 					}
 				} 

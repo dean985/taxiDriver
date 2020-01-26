@@ -3,6 +3,7 @@ package GameUtils;
 import Server.game_service;
 import algorithms.Graph_Algo;
 import dataStructure.*;
+import org.json.JSONException;
 import org.json.JSONObject;
 import utils.Point3D;
 
@@ -32,7 +33,13 @@ public class gameFruits {
                 JSONObject jsonLine = new JSONObject(fruitsIter.next());
                 JSONObject fruit = jsonLine.getJSONObject("Fruit");
 
-                Fruit newFruit = new Fruit(fruit);
+                ///todo: parsing function
+
+
+               // Fruit newFruit = new Fruit(fruit);/// todo: put an fruit values
+
+                Fruit newFruit = parsing(fruit, false);
+
                 newFruit.setId(j);
 
                 allFruits.add(newFruit);
@@ -48,7 +55,45 @@ public class gameFruits {
     }
 
 
+
+
+
     ///////////////////////// Methods
+
+
+    Fruit parsing(JSONObject json_fruit, boolean targted)
+    {
+
+        double val;
+        int _type;
+        fruits type = fruits.BANANA;
+        Point3D location;
+        Fruit fruit = null;
+        //Value
+        try {
+             val= json_fruit.getDouble("value");
+            _type = json_fruit.getInt("type");
+            //Type  - BANANA:-1  , APPLE:1
+            if(_type == -1){
+               type = fruits.BANANA;
+            }else if (_type == 1){
+                type = fruits.APPLE;
+            }
+            String pos = json_fruit.getString("pos");
+            String[] point =pos.split(",");
+            double x = Double.parseDouble(point[0]);
+            double y = Double.parseDouble(point[1]);
+            location = new Point3D(x,y,0);
+
+             fruit = new Fruit(1,type,val,location,targted);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+       return fruit;
+    }
+
+
+
 
     /**
      * Return all the fruits in the game
@@ -175,6 +220,10 @@ public class gameFruits {
         return minValue;
     }
 
+    /**
+     *
+     * @return the Max Fruit
+     */
     public Fruit MaxFruit(){
         Iterator<Fruit> iter = allFruits.iterator();
         Fruit maxValue = iter.next();
@@ -183,7 +232,7 @@ public class gameFruits {
 
             while (iter.hasNext()){
                 temp = iter.next();
-                if (maxValue.getVal() < temp.getVal()){
+                if (maxValue.getVal() < temp.getVal() && !temp.isTargeted()){
                     maxValue = temp;
                 }
             }
@@ -201,8 +250,7 @@ public class gameFruits {
             try{
                 JSONObject jsonLine = new JSONObject(fruitsIter.next());
                 JSONObject fruit = jsonLine.getJSONObject("Fruit");
-
-                Fruit newFruit = new Fruit(fruit);
+                Fruit newFruit = parsing(fruit,allFruits.get(j).isTargeted());
                 newFruit.setId(j);
                 newFruit.setPathFruit(allFruits.get(j).getFruitPath());
                 allFruits.set(j,newFruit);

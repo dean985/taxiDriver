@@ -60,10 +60,9 @@ public class myGameGUI extends JFrame implements MouseListener, Runnable
         oopdGraph.init(g);
         dGraph  = new DGraph(oopdGraph);
 
-        //todo: implement input dialog for boolean auto-mode
-        game_robots = new gameRobots(dGraph, gameservice);
         game_fruits = new gameFruits(gameservice, dGraph);
         fruitsToEdges(game_fruits);
+        game_robots = new gameRobots(dGraph, gameservice,game_fruits);
 
 
 
@@ -120,7 +119,7 @@ public class myGameGUI extends JFrame implements MouseListener, Runnable
      * @return
      */
     public static int nextNodeInferior(game_service game, graph graph, int robot_id, gameFruits fruits, boolean speed, int src){
-        gameRobots allRobots = new gameRobots(graph, game);
+        gameRobots allRobots = new gameRobots(graph, game,game_fruits);
         Graph_Algo algo = new Graph_Algo(graph);
 
         Robot robot = allRobots.getRobotByID(robot_id);
@@ -183,18 +182,7 @@ public class myGameGUI extends JFrame implements MouseListener, Runnable
     	Object res = JOptionPane.showInputDialog(this,"set scenerio btween 0 - 23");
     	
     	int i =  Integer.parseInt(res.toString());
-//    	while (!isok)
-//    	{
-//    		if(i>23 || i<0)
-//    		{
-//
-//    			res = JOptionPane.showInputDialog(this,"set scenerio btween 0 - 23");
-//    			i = Integer.parseInt(res.toString());
-//    		}
-//    		else
-//    			isok = true;
-//    	}
-//
+
     	return i;
     }
     
@@ -250,25 +238,15 @@ public class myGameGUI extends JFrame implements MouseListener, Runnable
 
         System.out.println(gameGUI.gameservice.toString());
 
-//      Thread t2 =  new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                while (gameservice.isRunning())
-//            }
-//        });
-//
-//      t2.start();
+
         while (gameGUI.gameservice.isRunning()) {
 
             addTimePath(1);
-
-
-            //System.out.println(gameGUI.gameservice.timeToEnd());
             gameGUI.update();
             guiGraph.repaint();
 
             try {
-                Thread.sleep(90);
+                Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

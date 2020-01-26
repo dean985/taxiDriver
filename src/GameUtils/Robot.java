@@ -19,9 +19,8 @@ public class Robot {
     int current_node;
     int next_node = -1;
 
-    //public  LinkedHashMap<Point3D, Integer> pathTime = new LinkedHashMap<>();
     private ArrayList<locationPath> pathRecord = new ArrayList<>();
-    double speed = 0.00001;
+    double speed = 0.00002;
 
 
     public Robot (int id, Point3D p){
@@ -46,7 +45,7 @@ public class Robot {
         this.value = 0;
         this.id = id;
         this.location = point3D;
-         this.speed = speed;
+         this.speed = speed*10;
         this.current_node = current_node;
         next_node = -1; //current_node;
         locationPath lp = new locationPath(point3D);
@@ -158,6 +157,9 @@ public class Robot {
         return false;
     }
 
+    public double getSpeed() {
+        return speed;
+    }
 
     public double stickToEdge(node_data n1, node_data n2, double x){
         double x0 = n1.getLocation().x();
@@ -208,6 +210,10 @@ public class Robot {
         return collectedsomthing;
     }
 
+    public void setCurrent_node(int current_node) {
+        this.current_node = current_node;
+    }
+
     public void addtoPath(Point3D p){
         locationPath lp = new locationPath(p);
         this.pathRecord.add(lp);
@@ -220,4 +226,5 @@ public class Robot {
     public void setPathRecord(ArrayList<locationPath> pathRecord) {
         this.pathRecord = pathRecord;
     }
+
 }
