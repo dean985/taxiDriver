@@ -121,7 +121,7 @@ public class myGameGUI extends JFrame implements MouseListener, Runnable
      */
     public static int nextNodeInferior(game_service game, graph graph, int robot_id, gameFruits fruits, boolean speed, int src){
         gameRobots allRobots = new gameRobots(graph, game);
-        Graph_Algo algo = new Graph_Algo(graph);
+        Graph_Algo algo = new Graph_Algo(graph); 
 
         Robot robot = allRobots.getRobotByID(robot_id);
         Fruit fru = fruits.getnearFruit(speed, src);
@@ -143,6 +143,7 @@ public class myGameGUI extends JFrame implements MouseListener, Runnable
 
         return -1;
     }
+
 
     public int getScenario() {
         return scenario;

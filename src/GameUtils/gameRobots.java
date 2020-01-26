@@ -10,10 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import utils.Point3D;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class gameRobots {
 
@@ -87,8 +84,9 @@ public class gameRobots {
     public Robot getRobotByID(int id){
         Iterator<Robot> robIter = allRobots.iterator();
         while (robIter.hasNext()){
-            if (robIter.next().getId() == id){
-                return robIter.next();
+            Robot r = robIter.next();
+            if (r.getId() == id){
+                return r;
             }
         }
         return null;
@@ -219,8 +217,27 @@ public class gameRobots {
             for (int i = 0 ; i <log.size(); i++){
                 Robot robotFromServer = modifyRobot(log.get(i));
                 if (robotFromServer.getNext_node() == -1){
-                    robotFromServer.setNext_node(gameRobots.nextNode2(service, gameFruits, graph, robotFromServer.getId(), robotFromServer.current_node, true));
-                    service.chooseNextEdge(robotFromServer.getId(), robotFromServer.next_node);
+//                    robotFromServer.setNext_node(gameRobots.nextNode2(service, gameFruits, graph, robotFromServer.getId(), robotFromServer.current_node, true));
+//                    service.chooseNextEdge(robotFromServer.getId(), robotFromServer.next_node);
+
+
+                    gameFruits fruits = new gameFruits(service, graph);
+                    gameRobots robots = new gameRobots(graph, service);
+                    if (robotFromServer.getId() == 0){
+                        robotFromServer.setNext_node(nearFruit(graph, robotFromServer.getCurrent_node(),
+                                robotFromServer.getId(), service, fruits,false));
+
+                    }
+                    if (robotFromServer.getId() == 1){
+                        robotFromServer.setNext_node(seperate(graph, robotFromServer.getId(), fruits, 3));
+                    }
+                    if (robotFromServer.getNext_node() ==-1 && robotFromServer.getId() != 2){
+                        robotFromServer.setNext_node(fruits.MinFruit().getId());
+                    }
+                    if (robotFromServer.getNext_node() == -1){
+                        robotFromServer.setNext_node(randEdge(graph, robotFromServer.getCurrent_node(), robotFromServer.getId()));
+                    }
+
                 }
                 allRobots.set(robotFromServer.getId(), robotFromServer) ;
             }
@@ -235,6 +252,7 @@ public class gameRobots {
             JSONObject rob = currentLine.getJSONObject("Robot");
             int id = rob.getInt("id");
             int first_node = rob.getInt("src");
+//            int dest = rob.getInt("dest");
             String location = rob.getString("pos");
             String pos[] = location.split(",");
             double x = Double.parseDouble(pos[0]);
@@ -248,4 +266,58 @@ public class gameRobots {
     return null;
     }
 
+    public static int randEdge(graph graph, int src, int rid){
+        ArrayList<Integer> choices = new ArrayList<>();
+        Graph_Algo algo = new Graph_Algo(graph);
+        Iterator<node_data> nodes = graph.getV().iterator();
+
+        while (nodes.hasNext()){
+            choices.add(nodes.next().getKey());
+        }
+
+        int randNode = (int) (Math.random() * graph.getV().size());
+
+        try {
+            return algo.shortestPath(src, choices.get(randNode)).get(1).getKey();
+        } catch (Exception e) {
+            System.out.println("Problem in rand EDGE");
+            return 0;
+        }
+
+    }
+    private static int nearFruit(graph graph, int src, int rid, game_service game,gameFruits fruits,boolean speed) {
+        Graph_Algo algo = new Graph_Algo(graph);
+        gameRobots robots = new gameRobots(graph, game);
+        Robot r = robots.getRobotByID(rid);
+        Fruit f = fruits.close_fruit(speed,src);
+
+        edge_data edge = fruits.edgeOfFruit(f.getId());
+        if (edge == null) {
+            return -1;
+        }
+        if (edge.getDest() == src)
+            return edge.getSrc();
+        if (edge.getSrc() == src)
+            return edge.getDest();
+        if (f.getType() == GameUtils.fruits.BANANA) {
+
+            return algo.shortestPath(src, edge.getDest()).get(1).getKey();
+        } else return algo.shortestPath(src, edge.getSrc()).get(1).getKey();
+
+    }
+
+
+    public static int seperate(graph graph, int src, gameFruits fruits , int fruit_id){
+        Graph_Algo algo = new Graph_Algo(graph);
+        edge_data fruitEdge = fruits.edgeOfFruit(fruit_id);
+//        if (fruitEdge != null){
+        if (src == fruitEdge.getDest()){
+            return fruitEdge.getSrc();
+        }else if (src == fruitEdge.getSrc()){
+            return fruitEdge.getDest();
+        }
+        else {
+            return algo.shortestPath(src, fruitEdge.getDest()).get(1).getKey();
+        }
+    }
 }

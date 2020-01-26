@@ -162,6 +162,41 @@ public class gameFruits {
         }
 
 
+
+    public  Fruit close_fruit (boolean speed ,int src){
+        node_data node = Graph.getNode(src);
+        Graph_Algo algo = new Graph_Algo(Graph);
+        Point3D point = node.getLocation();
+        Iterator<Fruit> fruitIter = this.getFruitList().iterator();
+        if (fruitIter.hasNext()){
+            Fruit near = fruitIter.next();
+            edge_data nearE = edgeOfFruit(near.getId());
+
+            while (fruitIter.hasNext()){
+                Fruit current = fruitIter.next();
+                edge_data currentE = edgeOfFruit(current.getId());
+                try{
+                    if (speed){
+                        if (algo.shortestPathDist(src, nearE.getDest()) > algo.shortestPathDist(src, currentE.getDest())){
+                            near = current;
+                        }else{
+                            if (near.getLocation().distance2D(point) > current.getLocation().distance2D(point)){
+                                near = current;
+                            }
+                        }
+                    }
+                }catch (Exception e){
+                    if (near.getLocation().distance2D(point) > current.getLocation().distance2D(point)){
+                        near = current;
+                    }
+                }
+            }
+            return near;
+        }
+        return null;
+    }
+
+
     public Fruit MinFruit(){
         Iterator<Fruit> iter = allFruits.iterator();
         Fruit minValue = iter.next();
