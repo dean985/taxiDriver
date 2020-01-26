@@ -41,15 +41,12 @@ public class myGameGUI extends JFrame implements MouseListener, Runnable
     private static myGameGUI gameGUI;
     int scenario;
     static game_service  gameservice;
+    int id ;
+
+    int td = 90;
 
 
-
-    public myGameGUI(){
-       
-
-
-
-    }
+    public myGameGUI(){}
 
 
     public void init(int scenario_num){
@@ -59,13 +56,9 @@ public class myGameGUI extends JFrame implements MouseListener, Runnable
         OOP_DGraph oopdGraph = new OOP_DGraph();
         oopdGraph.init(g);
         dGraph  = new DGraph(oopdGraph);
-
         game_fruits = new gameFruits(gameservice, dGraph);
         fruitsToEdges(game_fruits);
         game_robots = new gameRobots(dGraph, gameservice,game_fruits);
-
-
-
     }
 
 
@@ -80,10 +73,10 @@ public class myGameGUI extends JFrame implements MouseListener, Runnable
     public void update()
     {
         game_robots.moveRobots(gameservice, dGraph, game_fruits );
+
+
         game_fruits.updateFruit(gameservice, dGraph);
-
        guiGraph.update_frame((ArrayList<Fruit>) game_fruits.getFruitList(),game_robots.Robots());
-
     }
 
     /**
@@ -93,15 +86,11 @@ public class myGameGUI extends JFrame implements MouseListener, Runnable
      */
     public static void fruitsToEdges(gameFruits fruits){
         ArrayList<Fruit> allFruits = (ArrayList<Fruit>) fruits.getFruitList();
-
         for (int i = 0 ; i < allFruits.size(); i++){
             Fruit temp = allFruits.get(i);
-
             Edge e = (Edge) fruits.edgeOfFruit(temp.id);
-
             e.addFruittoEdge(temp);
         }
-
     }
 
 
@@ -216,8 +205,10 @@ public class myGameGUI extends JFrame implements MouseListener, Runnable
     public static void main(String[] args) {
 
         gameGUI = new myGameGUI();
+        gameGUI.id = gameGUI.Show_dialog_login();
+        gameGUI.scenario = gameGUI. Show_dialog_scenerio();
         Thread client = new Thread(gameGUI);
-        client.start();
+         client.start();
 
     }
 
@@ -225,9 +216,9 @@ public class myGameGUI extends JFrame implements MouseListener, Runnable
     @Override
     public void run() {
 
-        Game_Server.login(gameGUI.Show_dialog_login());
+        Game_Server.login(id);
         try {
-            gameGUI.init(gameGUI. Show_dialog_scenerio());
+            gameGUI.init(scenario);
         }
         catch (RuntimeException e){
             JOptionPane.showMessageDialog(gameGUI, e.getMessage());
@@ -245,11 +236,11 @@ public class myGameGUI extends JFrame implements MouseListener, Runnable
             gameGUI.update();
             guiGraph.repaint();
 
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+                try {
+                    Thread.sleep(td);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
         }
 
@@ -265,6 +256,7 @@ public class myGameGUI extends JFrame implements MouseListener, Runnable
 
         gameservice.sendKML(kmlString);
 
+        scenario++;
 
     }
 	@Override

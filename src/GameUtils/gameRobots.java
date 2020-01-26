@@ -32,7 +32,6 @@ public class gameRobots {
         int src = 0;
 
         // todo: look for fruits
-        Iterator<Fruit> fruitIterator = gf.getFruitList().iterator();
         Fruit temp_fruit;
 
 
@@ -196,6 +195,16 @@ public class gameRobots {
                     robotFromServer.setNext_node(gameRobots.nextNode2(service, gameFruits, graph, robotFromServer.getId(), robotFromServer.current_node, true));
                     service.chooseNextEdge(robotFromServer.getId(), robotFromServer.next_node);
                 }
+//                double d_R_n1 = this.allRobots.get(i).getLocation().distance2D(graph.getNode(allRobots.get(i).next_node).getLocation());
+//                double d_n1_n2 = graph.getNode(allRobots.get(i).next_node).getLocation().distance2D(graph.getNode(allRobots.get(i).current_node).getLocation());
+//                double n = d_R_n1/d_n1_n2;
+//                double weight = graph.getEdge(allRobots.get(i).current_node,allRobots.get(i).next_node).getWeight();
+//
+//                try {
+//                    Thread.sleep((long) (n*weight/allRobots.get(i).getSpeed()));
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
                 allRobots.set(robotFromServer.getId(), robotFromServer) ;
             }
         }else {
